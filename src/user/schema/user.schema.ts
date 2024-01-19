@@ -37,19 +37,19 @@ export class User extends Document {
   @Prop({ type: String })
   job: string;
 
-  @Prop({ type: String, enum: Degree, default: Degree.BACHELORS })
+  @Prop({ type: String, enum: Degree })
   degree: string;
 
-  @Prop({ type: String, enum: Grade, default: Grade.Num101 })
+  @Prop({ type: String, enum: Grade })
   grade: string;
 
-  @Prop({ type: String, enum: Grade, default: Grade.Num101 })
-  sacrifice: string;
+  @Prop({ type: String, enum: Sacrifice })
+  sacrifice: Sacrifice;
 
-  @Prop({ type: String, enum: CompanyWorker, default: CompanyWorker.TREATY })
+  @Prop({ type: String, enum: CompanyWorker })
   companyWorker: string;
 
-  @Prop({ type: String, enum: NativeRegion, default: NativeRegion.NON_NATIVE })
+  @Prop({ type: String, enum: NativeRegion })
   nativeRegion: string;
 
   @Prop({ type: Boolean, default: false })
