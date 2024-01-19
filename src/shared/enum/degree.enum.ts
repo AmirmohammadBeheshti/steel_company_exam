@@ -1,0 +1,6 @@
+export enum Degree {
+  ASSOCIATE = 'ASSOCIATE',
+  BACHELORS = 'BACHELORS',
+  MASTERS = 'MASTERS',
+  DOCTORAL = 'DOCTORAL',
+}

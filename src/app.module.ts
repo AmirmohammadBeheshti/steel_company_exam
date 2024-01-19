@@ -7,10 +7,10 @@ import { UserModule } from './user/user.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath : ['.env']
+      envFilePath: ['.env'],
     }),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION),
-    UserModule],
-
+    UserModule,
+  ],
 })
 export class AppModule {}
