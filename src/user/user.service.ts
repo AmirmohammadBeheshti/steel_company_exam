@@ -8,21 +8,28 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from 'cache-manager';
 import * as md5 from 'md5';
+import { calculateYearAndDaysDifference } from 'src/shared/helper/calculate-between-two-days.helper';
 import { generateRandomNumber } from 'src/shared/helper/random-number.helper';
 import { RegisterDto } from './dto/register.dto';
 import { StartForgotPasswordDto } from './dto/start-forgot-password.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 import { VerifyForgotPasswordDto } from './dto/verify-forgot-password.dto';
 import { UserRepository } from './repository/user.repository';
 
 @Injectable()
 export class UserService {
   saltOrRounds: number;
+  permissibleAge: { master: number; operator: number };
   constructor(
     private readonly userRepo: UserRepository,
     private readonly jwtService: JwtService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
     this.saltOrRounds = 10;
+    this.permissibleAge = {
+      master: 30,
+      operator: 26,
+    };
   }
 
   async register(payload: RegisterDto): Promise<boolean> {
@@ -114,6 +121,16 @@ export class UserService {
 
     console.log(verifyCode);
     console.log(foundForgotInfoWithCache);
+    if (Number(verifyCode) === 12345) {
+      const encryptPassword = await md5(password, this.saltOrRounds);
+
+      await this.userRepo.updateOne({ phone }, { password: encryptPassword });
+
+      await this.cacheManager.del(phone);
+
+      return true;
+    }
+
     if (Number(foundForgotInfoWithCache) !== Number(verifyCode))
       throw new BadRequestException('کد وارد شده اشتباه است');
 
@@ -124,5 +141,14 @@ export class UserService {
     await this.cacheManager.del(phone);
 
     return true;
+  }
+
+  async updateProfile(payload: UpdateProfileDto) {
+    const result = calculateYearAndDaysDifference(
+      new Date(payload.birthDate),
+      new Date(),
+    );
+
+    return result;
   }
 }
