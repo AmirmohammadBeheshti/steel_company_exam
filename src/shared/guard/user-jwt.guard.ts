@@ -1,8 +1,8 @@
 import {
-    CanActivate,
-    ExecutionContext,
-    Injectable,
-    Type,
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  Type,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { userJwtStrategy } from 'src/user/constant/user-jwt-strategy.constant';
@@ -16,7 +16,6 @@ export const UserJwtGuardFactory = (): Type<CanActivate> => {
     async canActivate(context: ExecutionContext) {
       await super.canActivate(context);
       const req = context.switchToHttp().getRequest();
-      console.log('Rwq', req.user);
 
       return true;
     }

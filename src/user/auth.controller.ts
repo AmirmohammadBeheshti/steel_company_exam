@@ -1,8 +1,10 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GetUser } from './decorator/get-user.decorator';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { StartForgotPasswordDto } from './dto/start-forgot-password.dto';
+import { VerifyForgotPasswordDto } from './dto/verify-forgot-password.dto';
 import { UserLocalGuard } from './guard/user-local.guard';
 import { UserService } from './user.service';
 
@@ -23,5 +25,15 @@ export class AuthController {
     @Body() login: LoginDto,
   ): Promise<{ accessToken: string }> {
     return await this.userService.login(user._id);
+  }
+
+  @Put('forgot-password/start')
+  async startForgotPassword(@Body() forgotPassword: StartForgotPasswordDto) {
+    return this.userService.startForgotPassword(forgotPassword);
+  }
+
+  @Put('forgot-password/verify')
+  async verifyForgotPassword(@Body() payload: VerifyForgotPasswordDto) {
+    return this.userService.verifyForgotPassword(payload);
   }
 }

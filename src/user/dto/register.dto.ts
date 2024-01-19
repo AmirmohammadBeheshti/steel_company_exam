@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsMobilePhone, IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, Matches } from 'class-validator';
 import { Gender } from 'src/shared/enum/gender.enum';
 
 export class RegisterDto {
@@ -23,9 +23,11 @@ export class RegisterDto {
     required: true,
     default: '09150000000',
   })
-  @IsMobilePhone('fa-IR')
   @IsString()
   @IsNotEmpty()
+  @Matches(/^(\+98|0)?9\d{9}$/, {
+    message: 'شماره وارد شده اشتباه است',
+  })
   phone: string;
 
   @ApiProperty({
@@ -34,6 +36,9 @@ export class RegisterDto {
   })
   @IsNotEmpty()
   @IsString()
+  @Matches(/^[0-9]{10}$/, {
+    message: 'کد ملی وارد شده اشتباه است',
+  })
   nationalCode: string;
 
   @ApiProperty({
