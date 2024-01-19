@@ -4,7 +4,7 @@ import {
   IsDateString,
   IsEnum,
   IsNotEmpty,
-  IsString
+  IsString,
 } from 'class-validator';
 import { CompanyWorker } from 'src/shared/enum/company_worker.enum';
 import { Degree } from 'src/shared/enum/degree.enum';
@@ -42,7 +42,7 @@ export class UpdateProfileDto {
     default: '',
     enum: Grade,
   })
-  @IsEnum(Degree)
+  @IsEnum(Grade)
   @IsNotEmpty()
   grade: Grade;
 
@@ -89,7 +89,7 @@ export class UpdateProfileDto {
 
   @ApiProperty({
     required: true,
-    default: false,
+    enum: CompanyWorker,
   })
   @IsNotEmpty()
   @IsEnum(CompanyWorker)

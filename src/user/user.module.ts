@@ -4,7 +4,12 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthController } from './auth.controller';
 import { UserJwtSecretService } from './constant/user-jwt-secret.constant';
+import { UserDocumentRepository } from './repository/user-document.repository';
 import { UserRepository } from './repository/user.repository';
+import {
+  UserDocument,
+  UserDocumentSchema,
+} from './schema/user-document.schema';
 import { User, UserSchema } from './schema/user.schema';
 import { UserJwtStrategy } from './strategies/user-jwt.strategy';
 import { LocalUserStrategy } from './strategies/user-local.strategy';
@@ -13,7 +18,10 @@ import { UserService } from './user.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: UserDocument.name, schema: UserDocumentSchema },
+    ]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -27,6 +35,7 @@ import { UserService } from './user.service';
   providers: [
     UserService,
     UserRepository,
+    UserDocumentRepository,
     LocalUserStrategy,
     UserJwtStrategy,
     {

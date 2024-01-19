@@ -8,12 +8,16 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from 'cache-manager';
 import * as md5 from 'md5';
-import { calculateYearAndDaysDifference } from 'src/shared/helper/calculate-between-two-days.helper';
+import { Types } from 'mongoose';
+import { IKycFileInput } from 'src/shared/config/file-input';
+import { PhotoTypeStatus } from 'src/shared/enum/photo-type-status.enum';
 import { generateRandomNumber } from 'src/shared/helper/random-number.helper';
 import { RegisterDto } from './dto/register.dto';
 import { StartForgotPasswordDto } from './dto/start-forgot-password.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UploadImageDto } from './dto/upload-image.dto';
 import { VerifyForgotPasswordDto } from './dto/verify-forgot-password.dto';
+import { UserDocumentRepository } from './repository/user-document.repository';
 import { UserRepository } from './repository/user.repository';
 
 @Injectable()
@@ -22,6 +26,7 @@ export class UserService {
   permissibleAge: { master: number; operator: number };
   constructor(
     private readonly userRepo: UserRepository,
+    private readonly userDocRepo: UserDocumentRepository,
     private readonly jwtService: JwtService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
@@ -143,12 +148,77 @@ export class UserService {
     return true;
   }
 
-  async updateProfile(payload: UpdateProfileDto) {
-    const result = calculateYearAndDaysDifference(
-      new Date(payload.birthDate),
-      new Date(),
-    );
+  async updateProfile(
+    payload: UploadImageDto,
+    files: IKycFileInput,
+    user: any,
+  ): Promise<boolean> {
+    const { type } = payload;
+    const foundUserDoc = await this.userDocRepo.findOne({
+      userId: new Types.ObjectId(user._id),
+      photoType: type,
+    });
 
-    return result;
+    if (foundUserDoc) {
+      await this.userDocRepo.updateOne(
+        { userId: new Types.ObjectId(user._id), photoType: type },
+        { status: PhotoTypeStatus.PENDING, srcFile: files.file[0].path },
+      );
+    } else {
+      this.userDocRepo.create({
+        photoType: type,
+        userId: new Types.ObjectId(user._id),
+        srcFile: files.file[0].path,
+      });
+    }
+    return true;
+  }
+
+  async editProfile(payload: UpdateProfileDto, user) {
+    const {
+      birthDate,
+      cityId,
+      provinceId,
+      grade,
+      studyField,
+      gradePoint,
+      sacrifice,
+      companyWorker,
+      workInCompany,
+      nativeRegion,
+    } = payload;
+
+    await this.userRepo.updateOne(
+      { _id: user._id },
+      {
+        birthDate,
+        cityId,
+        provinceId,
+        grade,
+        degree: studyField,
+        gradePoint,
+        sacrifice,
+        companyWorker,
+        workInCompany,
+        nativeRegion,
+      },
+    );
+    return true;
+  }
+
+  async findUserDocument(userInfo) {
+    return await this.userDocRepo.aggregate([
+      {
+        $match: { userId: new Types.ObjectId(userInfo._id) },
+      },
+      {
+        $project: {
+          srcFile: 1,
+          _id: 1,
+          status: 1,
+          photoType: 1,
+        },
+      },
+    ]);
   }
 }
