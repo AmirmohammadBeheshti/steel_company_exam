@@ -162,13 +162,13 @@ export class UserService {
     if (foundUserDoc) {
       await this.userDocRepo.updateOne(
         { userId: new Types.ObjectId(user._id), photoType: type },
-        { status: PhotoTypeStatus.PENDING, srcFile: files.file[0].path },
+        { status: PhotoTypeStatus.PENDING, srcFile: files.file[0].filename },
       );
     } else {
       this.userDocRepo.create({
         photoType: type,
         userId: new Types.ObjectId(user._id),
-        srcFile: files.file[0].path,
+        srcFile: files.file[0].filename,
       });
     }
     return true;
