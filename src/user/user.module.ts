@@ -28,7 +28,7 @@ import { LocalUserStrategy } from './strategies/user-local.strategy';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         secret: 'UserExam',
-        signOptions: { expiresIn: '20d' },
+        signOptions: { expiresIn: '1h' },
       }),
       inject: [ConfigService],
     }),

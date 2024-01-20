@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 import { CompanyWorker } from 'src/shared/enum/company_worker.enum';
@@ -84,17 +85,17 @@ export class UpdateProfileDto {
 
   @ApiProperty({
     required: true,
-    default: false,
+    default: 10,
   })
-  @IsBoolean()
+  @IsNumber()
   @IsNotEmpty()
-  workInCompany: boolean;
+  workInCompanyYear: number;
 
   @ApiProperty({
     required: true,
     enum: CompanyWorker,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(CompanyWorker)
   companyWorker: CompanyWorker;
 

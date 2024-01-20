@@ -43,7 +43,7 @@ export class UserController {
       sacrifice: userInfo.sacrifice,
       companyWorker: userInfo.companyWorker,
       nativeRegion: userInfo.nativeRegion,
-      workInCompany: userInfo.workInCompany,
+      workInCompany: userInfo.workInCompanyYear,
       gradePoint: userInfo.gradePoint,
       state: userInfo.state,
       status: userInfo.status,

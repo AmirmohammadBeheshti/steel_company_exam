@@ -55,8 +55,8 @@ export class User extends Document {
   @Prop({ type: String, enum: NativeRegion })
   nativeRegion: string;
 
-  @Prop({ type: Boolean, default: false })
-  workInCompany: boolean;
+  @Prop({ type: Number })
+  workInCompanyYear: number;
 
   @Prop({ type: String, enum: Sacrifice })
   gradePoint: string;
