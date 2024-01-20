@@ -6,6 +6,9 @@ services:
     container_name: exam-api
     networks:
       - saba
+    environment:
+      - MONGO_CONNECTION=mongodb://mongo/steel_company
+      - PORT=80
     logging:
       driver: "json-file"
       options:

@@ -10,6 +10,12 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
+  app.enableCors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
   app.useStaticAssets(path.join(__dirname, '..', 'uploads'), {
     index: false,
     prefix: '/uploads',
@@ -29,6 +35,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  console.log('Nest Application Start On Port', process.env.PORT);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

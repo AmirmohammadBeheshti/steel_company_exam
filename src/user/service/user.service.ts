@@ -10,15 +10,16 @@ import { Cache } from 'cache-manager';
 import * as md5 from 'md5';
 import { Types } from 'mongoose';
 import { IKycFileInput } from 'src/shared/config/file-input';
+import { DocStatus } from 'src/shared/enum/doc-status.enu,';
 import { PhotoTypeStatus } from 'src/shared/enum/photo-type-status.enum';
 import { generateRandomNumber } from 'src/shared/helper/random-number.helper';
-import { RegisterDto } from './dto/register.dto';
-import { StartForgotPasswordDto } from './dto/start-forgot-password.dto';
-import { UpdateProfileDto } from './dto/update-profile.dto';
-import { UploadImageDto } from './dto/upload-image.dto';
-import { VerifyForgotPasswordDto } from './dto/verify-forgot-password.dto';
-import { UserDocumentRepository } from './repository/user-document.repository';
-import { UserRepository } from './repository/user.repository';
+import { RegisterDto } from '../dto/register.dto';
+import { StartForgotPasswordDto } from '../dto/start-forgot-password.dto';
+import { UpdateProfileDto } from '../dto/update-profile.dto';
+import { UploadImageDto } from '../dto/upload-image.dto';
+import { VerifyForgotPasswordDto } from '../dto/verify-forgot-password.dto';
+import { UserDocumentRepository } from '../repository/user-document.repository';
+import { UserRepository } from '../repository/user.repository';
 
 @Injectable()
 export class UserService {
@@ -193,6 +194,7 @@ export class UserService {
       {
         birthDate,
         cityId,
+        docStatus: DocStatus.PENDING,
         provinceId,
         grade,
         degree: studyField,

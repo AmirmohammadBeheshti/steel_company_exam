@@ -14,11 +14,11 @@ import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { IKycFileInput } from 'src/shared/config/file-input';
 import { multerOptions } from 'src/shared/config/multer.config';
 import { UserJwtGuardFactory } from 'src/shared/guard/user-jwt.guard';
-import { GetUser } from './decorator/get-user.decorator';
-import { UpdateProfileDto } from './dto/update-profile.dto';
-import { UploadImageDto } from './dto/upload-image.dto';
-import { User } from './schema/user.schema';
-import { UserService } from './user.service';
+import { GetUser } from '../decorator/get-user.decorator';
+import { UpdateProfileDto } from '../dto/update-profile.dto';
+import { UploadImageDto } from '../dto/upload-image.dto';
+import { User } from '../schema/user.schema';
+import { UserService } from '../service/user.service';
 
 @UseGuards(UserJwtGuardFactory())
 @ApiBearerAuth()

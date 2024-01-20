@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { userLocalStrategy } from '../constant/user-local-strategy.constant';
 import { User } from '../schema/user.schema';
-import { UserService } from '../user.service';
+import { UserService } from '../service/user.service';
 
 @Injectable()
 export class LocalUserStrategy extends PassportStrategy(

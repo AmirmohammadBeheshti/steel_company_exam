@@ -2,10 +2,12 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { CompanyWorker } from 'src/shared/enum/company_worker.enum';
 import { Degree } from 'src/shared/enum/degree.enum';
+import { DocStatus } from 'src/shared/enum/doc-status.enu,';
 import { Gender } from 'src/shared/enum/gender.enum';
 import { Grade } from 'src/shared/enum/grade.enum';
 import { NativeRegion } from 'src/shared/enum/native-region.enum';
 import { Sacrifice } from 'src/shared/enum/sacrifice.enum';
+import { UserStatus } from 'src/shared/enum/user-status.enum';
 
 @Schema({
   collection: 'user',
@@ -57,6 +59,15 @@ export class User extends Document {
 
   @Prop({ type: String, enum: Sacrifice })
   gradePoint: string;
+
+  @Prop({ type: String, enum: UserStatus, default: UserStatus.PENDING })
+  status: UserStatus;
+
+  @Prop({ type: String, enum: DocStatus, default: DocStatus.WAITING })
+  docStatus: DocStatus;
+
+  @Prop({ type: Boolean, default: false })
+  isAdmin: boolean;
 
   @Prop({ type: String })
   state: string;

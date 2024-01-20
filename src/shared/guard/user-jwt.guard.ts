@@ -10,10 +10,11 @@ import { userJwtStrategy } from 'src/user/constant/user-jwt-strategy.constant';
 @Injectable()
 export class UserJwtGuard extends AuthGuard(userJwtStrategy) {}
 
-export const UserJwtGuardFactory = (): Type<CanActivate> => {
+export const UserJwtGuardFactory = (isAdmin?: boolean): Type<CanActivate> => {
   @Injectable()
   class UserGuardMixin extends UserJwtGuard {
     async canActivate(context: ExecutionContext) {
+      console.log(isAdmin);
       await super.canActivate(context);
       const req = context.switchToHttp().getRequest();
 
