@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CityWithProvinceDto } from './dto/city-with-province.dto';
 import { CityRepository } from './repository/city.repository';
 import { ProvinceRepository } from './repository/province.repository';
 
@@ -15,5 +16,9 @@ export class CityService {
 
   async findProvince() {
     return await this.provinceRepo.findAll();
+  }
+
+  async getCityWithProvince(payload: CityWithProvinceDto) {
+    return await this.cityRepo.find({ provinceId: payload.provinceId });
   }
 }

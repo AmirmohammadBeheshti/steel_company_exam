@@ -4,11 +4,14 @@ import {
   IsDateString,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsString,
 } from 'class-validator';
 import { CompanyWorker } from 'src/shared/enum/company_worker.enum';
 import { Degree } from 'src/shared/enum/degree.enum';
+import { Gender } from 'src/shared/enum/gender.enum';
 import { Grade } from 'src/shared/enum/grade.enum';
+import { Job } from 'src/shared/enum/job.enum';
 import { NativeRegion } from 'src/shared/enum/native-region.enum';
 import { Sacrifice } from 'src/shared/enum/sacrifice.enum';
 
@@ -94,4 +97,78 @@ export class UpdateProfileDto {
   @IsNotEmpty()
   @IsEnum(CompanyWorker)
   companyWorker: CompanyWorker;
+
+  @ApiProperty({
+    required: true,
+    default: '',
+  })
+  @IsNotEmpty()
+  @IsString()
+  homeNumber: string;
+
+  @ApiProperty({
+    required: true,
+    default: '',
+    enum: Gender,
+  })
+  @IsEnum(Gender)
+  @IsString()
+  gender: Gender;
+
+  @ApiProperty({
+    required: true,
+    default: '',
+  })
+  @IsNotEmpty()
+  @IsString()
+  firstName: string;
+
+  @ApiProperty({
+    required: true,
+    default: '',
+  })
+  @IsNotEmpty()
+  @IsString()
+  lastName: string;
+
+  @ApiProperty({
+    required: true,
+    enum: Job,
+  })
+  @IsEnum(Job)
+  @IsNotEmpty()
+  job: Job;
+
+  @ApiProperty({
+    required: true,
+    default: false,
+  })
+  @IsBoolean()
+  @IsNotEmpty()
+  // فارغ التحصیل
+  graduated: boolean;
+
+  @ApiProperty({
+    required: true,
+    default: false,
+  })
+  @IsBoolean()
+  @IsNotEmpty()
+  hasInsuranceHistory: boolean;
+
+  @ApiProperty({
+    required: true,
+    default: 10,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  insuranceYear: number;
+
+  @ApiProperty({
+    required: true,
+    default: false,
+  })
+  @IsBoolean()
+  @IsNotEmpty()
+  hasMilitaryCard: boolean;
 }

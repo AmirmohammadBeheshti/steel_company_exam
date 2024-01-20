@@ -1,7 +1,8 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserJwtGuardFactory } from 'src/shared/guard/user-jwt.guard';
 import { CityService } from './city.service';
+import { CityWithProvinceDto } from './dto/city-with-province.dto';
 
 @ApiBearerAuth()
 @UseGuards(UserJwtGuardFactory())
@@ -18,5 +19,10 @@ export class CityController {
   @Get('city')
   async getCity() {
     return await this.cityService.findCity();
+  }
+
+  @Get('city-with-province')
+  async getCityWithProvince(@Query() payload: CityWithProvinceDto) {
+    return await this.cityService.getCityWithProvince(payload);
   }
 }

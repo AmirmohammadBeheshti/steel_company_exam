@@ -1,11 +1,22 @@
-import { Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UserJwtGuardFactory } from 'src/shared/guard/user-jwt.guard';
 import { ValidateMongoId } from 'src/shared/pipe/validation-mongo';
 import { AdminDocStatusDto } from '../dto/admin/doc-status.dto';
 import { AdminFindUserDto } from '../dto/admin/find-user.dto';
 import { AdminImageStatusDto } from '../dto/admin/image-status.dto';
 import { UserAdminService } from '../service/user-admin.service';
 
+@ApiBearerAuth()
+@UseGuards(UserJwtGuardFactory(true))
 @ApiTags('User Admin')
 @Controller('panel/user')
 export class UserAdminController {

@@ -46,6 +46,9 @@ export class UserController {
       workInCompany: userInfo.workInCompany,
       gradePoint: userInfo.gradePoint,
       state: userInfo.state,
+      status: userInfo.status,
+      docStatus: userInfo.docStatus,
+      isAdmin: userInfo.isAdmin,
       cityId: userInfo.cityId,
       provinceId: userInfo.provinceId,
     };

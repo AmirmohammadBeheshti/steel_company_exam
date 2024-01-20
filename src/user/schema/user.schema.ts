@@ -5,6 +5,7 @@ import { Degree } from 'src/shared/enum/degree.enum';
 import { DocStatus } from 'src/shared/enum/doc-status.enu,';
 import { Gender } from 'src/shared/enum/gender.enum';
 import { Grade } from 'src/shared/enum/grade.enum';
+import { Job } from 'src/shared/enum/job.enum';
 import { NativeRegion } from 'src/shared/enum/native-region.enum';
 import { Sacrifice } from 'src/shared/enum/sacrifice.enum';
 import { UserStatus } from 'src/shared/enum/user-status.enum';
@@ -36,8 +37,8 @@ export class User extends Document {
   @Prop({ type: Date })
   birthDate: Date;
 
-  @Prop({ type: String })
-  job: string;
+  @Prop({ type: String, enum: Job })
+  job: Job;
 
   @Prop({ type: String, enum: Degree })
   degree: string;
@@ -68,6 +69,18 @@ export class User extends Document {
 
   @Prop({ type: Boolean, default: false })
   isAdmin: boolean;
+
+  @Prop({ type: Boolean, default: false })
+  graduated: boolean;
+
+  @Prop({ type: Boolean })
+  hasInsuranceHistory: boolean;
+
+  @Prop({ type: Boolean })
+  hasMilitaryCard: boolean;
+
+  @Prop({ type: Number })
+  insuranceYear: number;
 
   @Prop({ type: String })
   state: string;

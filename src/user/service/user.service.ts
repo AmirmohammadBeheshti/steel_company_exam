@@ -187,6 +187,15 @@ export class UserService {
       companyWorker,
       workInCompany,
       nativeRegion,
+      firstName,
+      lastName,
+      graduated,
+      gender,
+      hasInsuranceHistory,
+      hasMilitaryCard,
+      homeNumber,
+      insuranceYear,
+      job,
     } = payload;
 
     await this.userRepo.updateOne(
@@ -203,6 +212,15 @@ export class UserService {
         companyWorker,
         workInCompany,
         nativeRegion,
+        firstName,
+        lastName,
+        graduated,
+        gender,
+        hasInsuranceHistory,
+        hasMilitaryCard,
+        homeNumber,
+        insuranceYear,
+        job,
       },
     );
     return true;
