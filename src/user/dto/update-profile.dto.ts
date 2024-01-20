@@ -11,7 +11,6 @@ import {
 import { CompanyWorker } from 'src/shared/enum/company_worker.enum';
 import { Degree } from 'src/shared/enum/degree.enum';
 import { Gender } from 'src/shared/enum/gender.enum';
-import { Grade } from 'src/shared/enum/grade.enum';
 import { Job } from 'src/shared/enum/job.enum';
 import { NativeRegion } from 'src/shared/enum/native-region.enum';
 import { Sacrifice } from 'src/shared/enum/sacrifice.enum';
@@ -43,12 +42,11 @@ export class UpdateProfileDto {
 
   @ApiProperty({
     required: true,
-    default: '',
-    enum: Grade,
+    default: 10,
   })
-  @IsEnum(Grade)
+  @IsNumber()
   @IsNotEmpty()
-  grade: Grade;
+  grade: number;
 
   @ApiProperty({
     required: true,
