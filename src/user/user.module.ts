@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
@@ -20,6 +21,7 @@ import { LocalUserStrategy } from './strategies/user-local.strategy';
 
 @Module({
   imports: [
+    HttpModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: UserDocument.name, schema: UserDocumentSchema },

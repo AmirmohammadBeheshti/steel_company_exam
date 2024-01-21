@@ -1,3 +1,4 @@
+import { HttpService } from '@nestjs/axios';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   BadRequestException,
@@ -29,6 +30,7 @@ export class UserService {
     private readonly userRepo: UserRepository,
     private readonly userDocRepo: UserDocumentRepository,
     private readonly jwtService: JwtService,
+    private readonly httpService: HttpService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
     this.saltOrRounds = 10;
@@ -114,6 +116,37 @@ export class UserService {
     await this.cacheManager.set(phone, randomNumber, 120000);
 
     console.log(randomNumber);
+    const data = {
+      receptor: phone,
+      template: 'forgot',
+      token: undefined,
+    };
+    data.token = randomNumber;
+    const qs = Object.keys(data)
+      .map((key) => {
+        if (!data[key]) return '';
+        return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+      })
+      .filter((val) => !!val)
+      .join('&');
+
+    await this.httpService
+      .post(
+        'https://api.kavenegar.com/v1/59515A4B6B4B2F3641536864764F504776467550324C70486E396539783357636F5068354739796A6550453D/verify/lookup.json',
+        qs,
+      )
+      .subscribe({
+        // next: (v) => {},
+        error: (e) => {
+          console.log('خطا در ارسال پیامک', e.response.data);
+        },
+        complete: () => {
+          console.log(
+            'KavhenegarService.send(); Kavengear response on sending sms request: ',
+            data,
+          );
+        },
+      });
 
     return true;
   }

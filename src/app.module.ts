@@ -2,8 +2,8 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './user/user.module';
 import { CityModule } from './city/city.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
