@@ -13,6 +13,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { IKycFileInput } from 'src/shared/config/file-input';
 import { multerOptions } from 'src/shared/config/multer.config';
+import { PhotoType } from 'src/shared/enum/photo-type.enum';
 import { UserJwtGuardFactory } from 'src/shared/guard/user-jwt.guard';
 import { GetUser } from '../decorator/get-user.decorator';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
@@ -79,6 +80,52 @@ export class UserController {
     @Request() req,
   ): Promise<boolean> {
     return await this.userService.updateProfile(payload, files, req.user);
+  }
+
+  @Post('documents-degree')
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'file1', maxCount: 1 },
+        { name: 'file2', maxCount: 1 },
+        { name: 'file3', maxCount: 1 },
+      ],
+      multerOptions,
+    ),
+  )
+  @ApiConsumes('multipart/form-data')
+  async uploadDegreeDocument(
+    @Body() payload: UploadImageDto,
+    @UploadedFiles()
+    files: any,
+    @Request() req,
+  ): Promise<boolean> {
+    console.log(files);
+    if (files.file1) {
+      await this.userService.updateProfile(
+        { type: PhotoType.EDUCATION_DEGREE },
+        { file: files.file1 },
+        req.user,
+      );
+    }
+
+    if (files.file2) {
+      await this.userService.updateProfile(
+        { type: PhotoType.EDUCATION_DEGREE2 },
+        { file: files.file2 },
+        req.user,
+      );
+    }
+
+    if (files.file3) {
+      await this.userService.updateProfile(
+        { type: PhotoType.EDUCATION_DEGREE3 },
+        { file: files.file3 },
+        req.user,
+      );
+    }
+
+    return true;
   }
 
   @Get('documents')

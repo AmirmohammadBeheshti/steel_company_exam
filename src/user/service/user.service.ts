@@ -244,6 +244,32 @@ export class UserService {
     return true;
   }
 
+  async uploadDegreeDocument(
+    payload: UploadImageDto,
+    files: IKycFileInput,
+    user: any,
+  ): Promise<boolean> {
+    const { type } = payload;
+    const foundUserDoc = await this.userDocRepo.findOne({
+      userId: new Types.ObjectId(user._id),
+      photoType: type,
+    });
+
+    if (foundUserDoc) {
+      await this.userDocRepo.updateOne(
+        { userId: new Types.ObjectId(user._id), photoType: type },
+        { status: PhotoTypeStatus.PENDING, srcFile: files.file[0].filename },
+      );
+    } else {
+      this.userDocRepo.create({
+        photoType: type,
+        userId: new Types.ObjectId(user._id),
+        srcFile: files.file[0].filename,
+      });
+    }
+    return true;
+  }
+
   async editProfile(payload: UpdateProfileDto, user) {
     const {
       birthDate,
