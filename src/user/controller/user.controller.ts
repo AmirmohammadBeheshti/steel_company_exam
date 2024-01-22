@@ -85,4 +85,9 @@ export class UserController {
   async findUserDocument(@Request() req): Promise<any> {
     return await this.userService.findUserDocument(req.user);
   }
+
+  @Get('get-card')
+  async getCard(@Request() req) {
+    return await this.userService.generateCard(req.user);
+  }
 }

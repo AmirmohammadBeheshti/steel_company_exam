@@ -40,6 +40,42 @@ export class UserService {
     };
   }
 
+  async generateCard(userInfo: any) {
+    let trackingCode: any = 0;
+    let tenderNumber: any = 0;
+
+    if (!userInfo.grade)
+      throw new BadRequestException(
+        'اطلاعات کاربر با مشکل مواجه است . لطفا اطلاعات را کامل کنید',
+      );
+
+    if (userInfo.trackingCode) {
+      trackingCode = userInfo.trackingCode;
+    } else {
+      trackingCode = generateRandomNumber(99999);
+      await this.userRepo.updateOne(
+        { _id: userInfo._id },
+        { trackingCode: Number(trackingCode) },
+      );
+    }
+
+    if (userInfo.tenderNumber) {
+      tenderNumber = userInfo.tenderNumber;
+    } else {
+      tenderNumber =
+        String(userInfo.grade) + generateRandomNumber(99999).toString();
+      await this.userRepo.updateOne(
+        { _id: userInfo._id },
+        { tenderNumber: Number(tenderNumber) },
+      );
+    }
+
+    return {
+      trackingCode: Number(trackingCode),
+      tenderNumber: Number(tenderNumber),
+    };
+  }
+
   async register(payload: RegisterDto): Promise<boolean> {
     const {
       firstName,

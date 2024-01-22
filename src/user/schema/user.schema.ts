@@ -38,6 +38,12 @@ export class User extends Document {
   @Prop({ type: String })
   extraStudy: string;
 
+  @Prop({ type: String })
+  tenderNumber: string;
+
+  @Prop({ type: String })
+  trackingCode: string;
+
   @Prop({ type: String, enum: Gender, default: Gender.MALE })
   gender: string;
 
