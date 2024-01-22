@@ -7,7 +7,6 @@ import { Gender } from 'src/shared/enum/gender.enum';
 import { Grade } from 'src/shared/enum/grade.enum';
 import { Job } from 'src/shared/enum/job.enum';
 import { NativeRegionCondition } from 'src/shared/enum/native-region-condition.enum';
-import { NativeRegion } from 'src/shared/enum/native-region.enum';
 import { Sacrifice } from 'src/shared/enum/sacrifice.enum';
 import { UserStatus } from 'src/shared/enum/user-status.enum';
 
@@ -65,8 +64,8 @@ export class User extends Document {
   @Prop({ type: String, enum: CompanyWorker })
   companyWorker: string;
 
-  @Prop({ type: String, enum: NativeRegion })
-  nativeRegion: string;
+  @Prop({ type: Boolean, default: false })
+  nativeRegion: boolean;
 
   @Prop({ type: String, enum: NativeRegionCondition })
   NativeRegionCondition: string;

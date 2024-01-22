@@ -13,7 +13,6 @@ import { Degree } from 'src/shared/enum/degree.enum';
 import { Gender } from 'src/shared/enum/gender.enum';
 import { Job } from 'src/shared/enum/job.enum';
 import { NativeRegionCondition } from 'src/shared/enum/native-region-condition.enum';
-import { NativeRegion } from 'src/shared/enum/native-region.enum';
 import { Sacrifice } from 'src/shared/enum/sacrifice.enum';
 
 export class UpdateProfileDto {
@@ -76,11 +75,10 @@ export class UpdateProfileDto {
 
   @ApiProperty({
     required: true,
-    enum: NativeRegion,
   })
-  @IsEnum(NativeRegion)
+  @IsBoolean()
   @IsNotEmpty()
-  nativeRegion: NativeRegion;
+  nativeRegion: boolean;
 
   @ApiProperty({
     required: true,
