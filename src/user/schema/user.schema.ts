@@ -6,6 +6,7 @@ import { DocStatus } from 'src/shared/enum/doc-status.enu,';
 import { Gender } from 'src/shared/enum/gender.enum';
 import { Grade } from 'src/shared/enum/grade.enum';
 import { Job } from 'src/shared/enum/job.enum';
+import { NativeRegionCondition } from 'src/shared/enum/native-region-condition.enum';
 import { NativeRegion } from 'src/shared/enum/native-region.enum';
 import { Sacrifice } from 'src/shared/enum/sacrifice.enum';
 import { UserStatus } from 'src/shared/enum/user-status.enum';
@@ -31,6 +32,12 @@ export class User extends Document {
   @Prop({ type: String })
   homeNumber: string;
 
+  @Prop({ type: String })
+  companyName: string;
+
+  @Prop({ type: String })
+  extraStudy: string;
+
   @Prop({ type: String, enum: Gender, default: Gender.MALE })
   gender: string;
 
@@ -54,6 +61,9 @@ export class User extends Document {
 
   @Prop({ type: String, enum: NativeRegion })
   nativeRegion: string;
+
+  @Prop({ type: String, enum: NativeRegionCondition })
+  NativeRegionCondition: string;
 
   @Prop({ type: Number })
   workInCompanyYear: number;

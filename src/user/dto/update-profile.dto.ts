@@ -12,6 +12,7 @@ import { CompanyWorker } from 'src/shared/enum/company_worker.enum';
 import { Degree } from 'src/shared/enum/degree.enum';
 import { Gender } from 'src/shared/enum/gender.enum';
 import { Job } from 'src/shared/enum/job.enum';
+import { NativeRegionCondition } from 'src/shared/enum/native-region-condition.enum';
 import { NativeRegion } from 'src/shared/enum/native-region.enum';
 import { Sacrifice } from 'src/shared/enum/sacrifice.enum';
 
@@ -83,6 +84,14 @@ export class UpdateProfileDto {
 
   @ApiProperty({
     required: true,
+    enum: NativeRegionCondition,
+  })
+  @IsEnum(NativeRegionCondition)
+  @IsOptional()
+  NativeRegionCondition: NativeRegionCondition;
+
+  @ApiProperty({
+    required: true,
     default: 10,
   })
   @IsNumber()
@@ -104,6 +113,22 @@ export class UpdateProfileDto {
   @IsNotEmpty()
   @IsString()
   homeNumber: string;
+
+  @ApiProperty({
+    required: false,
+    default: '',
+  })
+  @IsOptional()
+  @IsString()
+  companyName: string;
+
+  @ApiProperty({
+    required: false,
+    default: '',
+  })
+  @IsOptional()
+  @IsString()
+  extraStudy: string;
 
   @ApiProperty({
     required: true,

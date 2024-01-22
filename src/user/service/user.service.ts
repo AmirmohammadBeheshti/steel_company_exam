@@ -222,6 +222,7 @@ export class UserService {
       nativeRegion,
       firstName,
       lastName,
+      NativeRegionCondition,
       graduated,
       gender,
       hasInsuranceHistory,
@@ -229,6 +230,8 @@ export class UserService {
       homeNumber,
       insuranceYear,
       job,
+      extraStudy,
+      companyName,
     } = payload;
 
     await this.userRepo.updateOne(
@@ -245,7 +248,10 @@ export class UserService {
         companyWorker,
         workInCompanyYear,
         nativeRegion,
+        NativeRegionCondition,
+        companyName,
         firstName,
+        extraStudy,
         lastName,
         graduated,
         gender,

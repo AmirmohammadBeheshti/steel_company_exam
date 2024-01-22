@@ -1,5 +1,4 @@
 export enum NativeRegion {
   NATIVE = 'NATIVE',
   NON_NATIVE = 'NON_NATIVE',
-  NEYSHABUR_NATIVE = 'NEYSHABUR_NATIVE',
 }
