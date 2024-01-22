@@ -23,9 +23,9 @@ services:
     ports:
       - 27018:27017
     environment:
-      MONGODB_DATABASE: bia2aroosi
+     - MONGO_DATA_DIR=/data/db
     volumes:
-      - mongodb_vol:/data/db
+      - ~/app/mongo/database:/data/db
     networks:
       - saba
 
