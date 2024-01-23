@@ -26,9 +26,6 @@ services:
      - MONGO_DATA_DIR=/data/db
     volumes:
       - ~/app/mongo/database:/data/db
-      - MONGO_INITDB_ROOT_USERNAME=amir
-      - MONGO_INITDB_ROOT_PASSWORD=amir
-      - MONGO_INITDB_DATABASE=admin
     networks:
       - saba
 
