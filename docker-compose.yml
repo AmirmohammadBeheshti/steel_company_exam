@@ -22,10 +22,10 @@ services:
     restart: always
     ports:
       - 127.0.0.1:27018:27017
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=@Yu6xCz_D@LegtpK
     environment:
      - MONGO_DATA_DIR=/data/db
+     - MONGO_INITDB_ROOT_USERNAME=root
+     - MONGO_INITDB_ROOT_PASSWORD=@Yu6xCz_D@LegtpK
     volumes:
       - ~/app/mongo/database:/data/db
     networks:
