@@ -66,7 +66,7 @@ export class User extends Document {
   @Prop({ type: String, enum: CompanyWorker })
   companyWorker: string;
 
-  @Prop({ type: Boolean, enum: NativeRegion })
+  @Prop({ type: String, enum: NativeRegion })
   nativeRegion: NativeRegion;
 
   @Prop({ type: Boolean, enum: Sarbazi })
