@@ -56,7 +56,6 @@ export class UserController {
       hasMilitaryCard: userInfo.hasMilitaryCard || false,
       state: userInfo.state,
       status: userInfo.status,
-      sarbazi: userInfo.sarbazi,
       docStatus: userInfo.docStatus,
       isAdmin: userInfo.isAdmin,
       cityId: userInfo.cityId,

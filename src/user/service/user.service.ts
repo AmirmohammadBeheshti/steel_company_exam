@@ -291,7 +291,6 @@ export class UserService {
       hasMilitaryCard,
       homeNumber,
       insuranceYear,
-      sarbazi,
       job,
       extraStudy,
       companyName,
@@ -312,7 +311,7 @@ export class UserService {
         workInCompanyYear,
         nativeRegion,
         NativeRegionCondition,
-        sarbazi,
+
         companyName,
         firstName,
         extraStudy,

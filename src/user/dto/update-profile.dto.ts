@@ -85,14 +85,6 @@ export class UpdateProfileDto {
 
   @ApiProperty({
     required: true,
-    enum: Sarbazi,
-  })
-  @IsEnum(Sarbazi)
-  @IsNotEmpty()
-  sarbazi: Sarbazi;
-
-  @ApiProperty({
-    required: true,
     enum: NativeRegionCondition,
   })
   @IsEnum(NativeRegionCondition)
@@ -199,9 +191,9 @@ export class UpdateProfileDto {
 
   @ApiProperty({
     required: true,
-    default: false,
+    enum: Sarbazi,
   })
-  @IsBoolean()
+  @IsEnum(Sarbazi)
   @IsNotEmpty()
-  hasMilitaryCard: boolean;
+  hasMilitaryCard: Sarbazi;
 }

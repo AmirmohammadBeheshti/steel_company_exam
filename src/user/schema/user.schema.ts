@@ -96,8 +96,8 @@ export class User extends Document {
   @Prop({ type: Boolean })
   hasInsuranceHistory: boolean;
 
-  @Prop({ type: Boolean })
-  hasMilitaryCard: boolean;
+  @Prop({ type: String, enum: Sarbazi })
+  hasMilitaryCard: Sarbazi;
 
   @Prop({ type: Number })
   insuranceYear: number;
