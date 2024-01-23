@@ -2,12 +2,14 @@ version: '3.7'
 services:
   exam-api:
     build: .
+    depends_on:
+      - mongodbContainer
     image: 'exam-api:latest'
     container_name: exam-api
     networks:
       - saba
     environment:
-      - MONGO_CONNECTION=mongodb://mongodbContainer/steel_company
+      - MONGO_CONNECTION=mongodb://amir:amir@mongodbContainer:27017/steel_company?authSource=admin
       - PORT=80
     logging:
       driver: "json-file"
@@ -21,29 +23,33 @@ services:
     container_name: mongodbContainer
     restart: always
     ports:
-      - 127.0.0.1:27018:27017
+      - 127.0.0.1:27017:27017
     environment:
      - MONGO_DATA_DIR=/data/db
+     - MONGO_INITDB_ROOT_USERNAME=amir
+     - MONGO_INITDB_ROOT_PASSWORD=amir
+     - MONGO_INITDB_DATABASE=admin
     volumes:
       - ~/app/mongo/database:/data/db
+
     networks:
       - saba
 
-  mongodb2019:
-    image: mongo:4.2.5
-    container_name: mongodb2019
-    restart: always
-    ports:
-      - 127.0.0.1:2019:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=amir
-      - MONGO_INITDB_ROOT_PASSWORD=amir
-      - MONGO_INITDB_DATABASE=admin
-    volumes:
-      - ~/app/mongo/database/aaa:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    networks:
-      - saba
+  # mongodb2019:
+  #   image: mongo:4.2.5
+  #   container_name: mongodb2019
+  #   restart: always
+  #   ports:
+  #     - 127.0.0.1:2019:27017
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=amir
+  #     - MONGO_INITDB_ROOT_PASSWORD=amir
+  #     - MONGO_INITDB_DATABASE=admin
+  #   volumes:
+  #     - ~/app/mongo/database/aaa:/data/db
+  #     - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  #   networks:
+  #     - saba
 
 
 
