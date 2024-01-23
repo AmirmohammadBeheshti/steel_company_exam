@@ -7,7 +7,7 @@ services:
     networks:
       - saba
     environment:
-      - MONGO_CONNECTION=mongodb://mongodbContainer/steel_company
+      - MONGO_CONNECTION=mongodb://amir:amir@mongodbContainer:27018/?authSource=admin
       - PORT=80
     logging:
       driver: "json-file"
