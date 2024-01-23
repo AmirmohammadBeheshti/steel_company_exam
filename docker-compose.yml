@@ -21,7 +21,9 @@ services:
     container_name: mongodbContainer
     restart: always
     ports:
-      - 27018:27017
+      - 127.0.0.1:27018:27017
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=@Yu6xCz_D@LegtpK
     environment:
      - MONGO_DATA_DIR=/data/db
     volumes:
