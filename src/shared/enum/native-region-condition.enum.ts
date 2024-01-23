@@ -3,4 +3,5 @@ export enum NativeRegionCondition {
   FAMILY_BIRTH = 'FAMILY_BIRTH',
   WIFE_HUSBAND_BIRTH = 'WIFE_HUSBAND_BIRTH',
   STUDY_PLACE = 'STUDY_PLACE',
+  NONE = 'NONE',
 }
