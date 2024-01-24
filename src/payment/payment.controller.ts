@@ -63,7 +63,7 @@ export class PaymentController {
 
   @Post('verify222')
   verify22(@Body() payload: {}) {
-    console.log(payload);
+    console.log('verify222  2222222222222', payload);
     this.paymentRepo.verify(payload);
   }
 }
