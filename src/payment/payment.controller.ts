@@ -3,11 +3,15 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { getPaymentDriver } from 'monopay';
 import { lastValueFrom } from 'rxjs';
+import { PaymentService } from './payment.service';
 
 @ApiTags('Payment')
 @Controller('payment')
 export class PaymentController {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly paymentRepo: PaymentService,
+  ) {}
 
   @Post()
   async post(@Body() payload: {}) {
@@ -55,5 +59,10 @@ export class PaymentController {
     const driver = getPaymentDriver('saman') as any;
     const paymentInfo = await driver.requestPayment(payload);
     return paymentInfo;
+  }
+
+  @Post('verify222')
+  verify22(@Body() payload: {}) {
+    this.paymentRepo.verify(payload);
   }
 }
