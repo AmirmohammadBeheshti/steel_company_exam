@@ -46,7 +46,7 @@ export class PaymentService {
           Wage: 0,
           AffectiveAmount: 0,
           TerminalId: 419263,
-          ResNum: generateRandomNumber(),
+          ResNum: generateRandomNumber(99999),
           RedirectURL: 'https://back2.ksc.bmtc.ac.ir/payment/verifyCallback',
         }),
       );
