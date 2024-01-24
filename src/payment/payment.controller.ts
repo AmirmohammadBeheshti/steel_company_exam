@@ -23,6 +23,33 @@ export class PaymentController {
     return a.data;
   }
 
+  @Post('token')
+  async token(@Body() payload: {} | any) {
+    console.log('Ttttttttttt', payload);
+    const a = await lastValueFrom(
+      this.httpService.get(
+        `https://sep.shaparak.ir/OnlinePG/SendToken?token=${payload.tokenValue}`,
+      ),
+    );
+
+    console.log(a);
+    return a.data;
+  }
+
+  @Post('verify')
+  async verify(@Body() payload: {} | any) {
+    console.log('Ttttttttttt', payload);
+    const a = await lastValueFrom(
+      this.httpService.get(
+        `https://sep.shaparak.ir/verifyTxnRandomSessionkey/ipg/VerifyTranscation`,
+        payload,
+      ),
+    );
+
+    console.log(a);
+    return a.data;
+  }
+
   @Post('start')
   async start(@Body() payload: {}) {
     const driver = getPaymentDriver('saman') as any;
