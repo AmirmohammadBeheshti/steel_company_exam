@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Redirect } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { getPaymentDriver } from 'monopay';
 import { lastValueFrom } from 'rxjs';
@@ -62,8 +62,10 @@ export class PaymentController {
   }
 
   @Post('verify222')
+  @Redirect()
   verify22(@Body() payload: {}) {
     console.log('verify222  2222222222222', payload);
     this.paymentRepo.verify(payload);
+    return { url: 'https://ksc.bmtc.ac.ir/test' };
   }
 }
