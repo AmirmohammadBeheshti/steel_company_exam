@@ -21,6 +21,14 @@ export class PaymentService {
         { ...payload },
       );
 
+      const a = await lastValueFrom(
+        this.httpService.post(
+          `https://sep.shaparak.ir/verifyTxnRandomSessionkey/ipg/VerifyTranscation`,
+          { RefNum: payload.RefNum, MID: payload.MID },
+        ),
+      );
+      console.log(a);
+
       if (payload.Status === '2') {
         return {
           url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
