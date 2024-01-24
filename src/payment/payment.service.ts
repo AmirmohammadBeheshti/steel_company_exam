@@ -60,6 +60,7 @@ export class PaymentService {
 
       return a.data.token;
     } catch (e) {
+      console.log(e);
       throw new BadRequestException(
         'در حال حاضر امکان برقراری با بانک امکان پذیر نیست',
       );
