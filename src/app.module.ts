@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CityModule } from './city/city.module';
 import { UserModule } from './user/user.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UserModule } from './user/user.module';
     MongooseModule.forRoot(process.env.MONGO_CONNECTION),
     UserModule,
     CityModule,
+    PaymentModule,
   ],
   providers: [],
 })
