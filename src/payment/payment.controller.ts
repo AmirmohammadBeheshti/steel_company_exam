@@ -10,7 +10,7 @@ export class PaymentController {
 
   @Post()
   async post(@Body() payload: {}) {
-    console.log(payload);
+    console.log('Ttttttttttt', payload);
     const a = await lastValueFrom(
       this.httpService.post(
         'https://sep.shaparak.ir/OnlinePG/OnlinePG',
