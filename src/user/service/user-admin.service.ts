@@ -11,6 +11,7 @@ import { Types } from 'mongoose';
 import { DocStatus } from 'src/shared/enum/doc-status.enu,';
 import { PhotoTypeStatus } from 'src/shared/enum/photo-type-status.enum';
 import { UserStatus } from 'src/shared/enum/user-status.enum';
+import { AdminUserUpdateDto } from '../dto/admin/admin-user-update.dto';
 import { AdminDocStatusDto } from '../dto/admin/doc-status.dto';
 import { AdminFindUserDto } from '../dto/admin/find-user.dto';
 import { AdminImageStatusDto } from '../dto/admin/image-status.dto';
@@ -27,18 +28,91 @@ export class UserAdminService {
   ) {}
 
   async getUser(payload: AdminFindUserDto) {
-    const { status } = payload;
-    return await this.userRepo.find({ isAdmin: false, status }, null, {
-      projection: {
-        _id: 1,
-        firstName: 1,
-        lastName: 1,
-        phone: 1,
-        gender: 1,
-        degree: 1,
-        status: 1,
+    const { status, page, nationalCode, phone, take } = payload;
+    return await this.userRepo.findAndPaginate(
+      { take: Number(take), page: Number(page) },
+      {
+        isAdmin: false,
+        status,
+        nationalCode: nationalCode && { $regex: nationalCode },
+        phone: phone && { $regex: phone },
       },
-    });
+      null,
+      {
+        projection: {
+          createdAt: 0,
+          updatedAt: 0,
+          __v: 0,
+        },
+      },
+    );
+  }
+
+  async total() {
+    return await this.userRepo.count({});
+  }
+
+  async updateUserInfo(payload: AdminUserUpdateDto) {
+    const {
+      birthDate,
+      cityId,
+      provinceId,
+      grade,
+      studyField,
+      gradePoint,
+      sacrifice,
+      companyWorker,
+      workInCompanyYear,
+      nativeRegion,
+      firstName,
+      lastName,
+      NativeRegionCondition,
+      graduated,
+      gender,
+      hasInsuranceHistory,
+      hasMilitaryCard,
+      homeNumber,
+      insuranceYear,
+      job,
+      extraStudy,
+      companyName,
+      userId,
+      nationalCode,
+      phone,
+    } = payload;
+
+    await this.userRepo.updateOne(
+      { _id: userId },
+      {
+        birthDate,
+        cityId,
+        nationalCode,
+        phone,
+        docStatus: DocStatus.PENDING,
+        provinceId,
+        grade,
+        degree: studyField,
+        gradePoint,
+        sacrifice,
+        companyWorker,
+        workInCompanyYear,
+        nativeRegion,
+        NativeRegionCondition,
+
+        companyName,
+        firstName,
+        extraStudy,
+        lastName,
+        graduated,
+        gender,
+        hasInsuranceHistory,
+        hasMilitaryCard,
+        homeNumber,
+        insuranceYear,
+        job,
+      },
+    );
+    return true;
   }
 
   async findById(id: string) {

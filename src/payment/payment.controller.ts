@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Post, Redirect } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Redirect } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { lastValueFrom } from 'rxjs';
 import { StartPaymentDto } from './dto/start-payment.dto';
@@ -41,6 +41,12 @@ export class PaymentController {
       ),
     );
     return a.data;
+  }
+
+  @Get('redirect/:id')
+  @Redirect()
+  getRe(@Param('id') id: string) {
+    return { url: `https://sep.shaparak.ir/OnlinePG/SendToken?token=${id}` };
   }
 
   @Post('verifyCallback')

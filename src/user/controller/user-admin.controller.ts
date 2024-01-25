@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Post,
   Put,
   Query,
   UseGuards,
@@ -10,6 +11,7 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserJwtGuardFactory } from 'src/shared/guard/user-jwt.guard';
 import { ValidateMongoId } from 'src/shared/pipe/validation-mongo';
+import { AdminUserUpdateDto } from '../dto/admin/admin-user-update.dto';
 import { AdminDocStatusDto } from '../dto/admin/doc-status.dto';
 import { AdminFindUserDto } from '../dto/admin/find-user.dto';
 import { AdminImageStatusDto } from '../dto/admin/image-status.dto';
@@ -24,6 +26,16 @@ export class UserAdminController {
   @Get()
   getUser(@Query() payload: AdminFindUserDto) {
     return this.userAdminService.getUser(payload);
+  }
+
+  @Get('total')
+  async total() {
+    return await this.userAdminService.total();
+  }
+
+  @Post('update-user-info')
+  async updateuser(@Body() payload: AdminUserUpdateDto) {
+    return await this.userAdminService.updateUserInfo(payload);
   }
 
   @Get(':id')
