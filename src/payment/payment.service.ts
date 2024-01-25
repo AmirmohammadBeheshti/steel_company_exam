@@ -56,6 +56,11 @@ export class PaymentService {
           TerminalId: 419263,
           ResNum: generateRandomNumber(99999),
           RedirectURL: 'https://back2.ksc.bmtc.ac.ir/payment/verifyCallback',
+          SettlementIBANInfo: {
+            IBAN: '2201000040010501030067130',
+            Amount: 10000,
+            PurchaseID: '382100060127760000000000012008',
+          },
         }),
       );
 

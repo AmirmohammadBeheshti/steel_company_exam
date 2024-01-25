@@ -32,6 +32,17 @@ export class PaymentController {
     return a.data;
   }
 
+  @Post('start')
+  async vaaaerify(@Body() payload: {} | any) {
+    const a: any = await lastValueFrom(
+      this.httpService.post(
+        'https://sep.shaparak.ir/OnlinePG/OnlinePG',
+        payload,
+      ),
+    );
+    return a.data;
+  }
+
   @Post('verifyCallback')
   @Redirect()
   async verify22(@Body() payload: any) {
