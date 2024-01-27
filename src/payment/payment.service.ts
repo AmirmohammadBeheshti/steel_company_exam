@@ -44,6 +44,7 @@ export class PaymentService {
               },
             ),
           );
+          console.log(a.data);
           if (!a?.data?.Success) {
             await this.paymentRepo.updateOne(
               { token: payload.Token },
