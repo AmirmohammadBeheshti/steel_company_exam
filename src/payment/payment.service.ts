@@ -37,10 +37,14 @@ export class PaymentService {
           const a = await lastValueFrom(
             this.httpService.post(
               `https://sep.shaparak.ir/verifyTxnRandomSessionkey/ipg/VerifyTranscation`,
-              { RefNum: payload.RefNum, MID: '41670843' },
+              {
+                RefNum: payload.RefNum,
+                MID: payload.MID,
+                TerminalId: '419263',
+              },
             ),
           );
-          console.log('Accept', a);
+          console.log('Accept', a.data);
           await this.paymentRepo.updateOne(
             { token: payload.Token },
             { status: PaymentStatus.COMPLETED, verifyLog: payload },
