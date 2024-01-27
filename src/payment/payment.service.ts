@@ -112,7 +112,7 @@ export class PaymentService {
   async paymentInfo(id: string) {
     return await this.paymentRepo.findOne(
       { _id: id },
-      { verifyLog: -1, axiosError: -1, createdAt: -1, updatedAt: -1, __v: -1 },
+      { verifyLog: 0, axiosError: 0, createdAt: 0, updatedAt: 0, __v: 0 },
     );
   }
 
