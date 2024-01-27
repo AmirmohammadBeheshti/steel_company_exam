@@ -40,11 +40,22 @@ export class PaymentService {
               {
                 RefNum: payload.RefNum,
                 MID: payload.MID,
-                TerminalId: '419263',
+                TerminalNumber: '419263',
               },
             ),
           );
-          console.log('Accept', a.data);
+          if (!a?.data?.Success) {
+            await this.paymentRepo.updateOne(
+              { token: payload.Token },
+              {
+                status: PaymentStatus.FAILED_PROCESS,
+                verifyLog: payload,
+                axiosError: 'payment is not successfull',
+              },
+            );
+            throw new BadRequestException('تراکنش موفق نبود');
+          }
+
           await this.paymentRepo.updateOne(
             { token: payload.Token },
             { status: PaymentStatus.COMPLETED, verifyLog: payload },
