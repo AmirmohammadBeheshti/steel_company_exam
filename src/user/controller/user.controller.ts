@@ -31,6 +31,7 @@ export class UserController {
   @Get('profile')
   getProfile(@GetUser() userInfo: User) {
     return {
+      _id: userInfo._id,
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       nationalCode: userInfo.nationalCode,
