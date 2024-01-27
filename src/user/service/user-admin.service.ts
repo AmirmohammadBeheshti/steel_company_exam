@@ -42,6 +42,8 @@ export class UserAdminService {
         projection: {
           createdAt: 0,
           updatedAt: 0,
+          password: -1,
+
           __v: 0,
         },
       },

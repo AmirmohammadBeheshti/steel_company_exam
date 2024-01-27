@@ -18,7 +18,7 @@ export class PaymentController {
     return await this.paymentService.startPayment(payload);
   }
 
-  @Post('paymentInfo/:id')
+  @Get('paymentInfo/:id')
   async paymentInfo(@Param('id') id: string) {
     return await this.paymentService.paymentInfo(id);
   }
