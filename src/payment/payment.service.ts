@@ -143,7 +143,8 @@ export class PaymentService {
           AffectiveAmount: 0,
           TerminalId: '419263',
           ResNum: generateRandomNumber(99999).toString(),
-          RedirectURL: 'https://back2.ksc.bmtc.ac.ir/payment/verifyCallback',
+          // RedirectURL: 'https://back2.ksc.bmtc.ac.ir/payment/verifyCallback',
+          RedirectURL: 'https://meysamsabeti.ir/payment/verifyCallback',
           SettlementIBANInfo: [
             {
               IBAN: 'IR220100004001020103006713',
