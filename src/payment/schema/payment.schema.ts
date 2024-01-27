@@ -26,6 +26,9 @@ export class Payment extends Document {
   @Prop({ type: String })
   RefNum: string;
 
+  @Prop({ type: Boolean, default: false })
+  isPaid: boolean;
+
   @Prop({ type: String })
   ResNum: string;
 
@@ -55,6 +58,12 @@ export class Payment extends Document {
 
   @Prop({ type: String, enum: PaymentStatus, default: PaymentStatus.STARTED })
   status: PaymentStatus;
+
+  @Prop({ type: Object })
+  verifyLog: any;
+
+  @Prop({ type: Object })
+  axiosError: any;
 }
 
 export const PaymentSchema = SchemaFactory.createForClass(Payment);

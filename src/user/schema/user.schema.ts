@@ -91,6 +91,9 @@ export class User extends Document {
   isAdmin: boolean;
 
   @Prop({ type: Boolean, default: false })
+  isPaid: boolean;
+
+  @Prop({ type: Boolean, default: false })
   graduated: boolean;
 
   @Prop({ type: Boolean })

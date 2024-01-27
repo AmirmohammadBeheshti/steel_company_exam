@@ -1,5 +1,5 @@
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -19,6 +19,7 @@ import { UserService } from './service/user.service';
 import { UserJwtStrategy } from './strategies/user-jwt.strategy';
 import { LocalUserStrategy } from './strategies/user-local.strategy';
 
+@Global()
 @Module({
   imports: [
     HttpModule,
@@ -48,5 +49,6 @@ import { LocalUserStrategy } from './strategies/user-local.strategy';
       useExisting: JwtService,
     },
   ],
+  exports: [UserRepository],
 })
 export class UserModule {}

@@ -44,6 +44,9 @@ export class UserService {
     let trackingCode: any = 0;
     let tenderNumber: any = 0;
 
+    if (!userInfo.isPaid)
+      throw new BadRequestException('کاربر پرداختی را انجام نداده است');
+
     if (!userInfo.grade)
       throw new BadRequestException(
         'اطلاعات کاربر با مشکل مواجه است . لطفا اطلاعات را کامل کنید',
