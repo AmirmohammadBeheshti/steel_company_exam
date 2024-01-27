@@ -66,7 +66,7 @@ export class PaymentService {
             { isPaid: true },
           );
           return {
-            url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+            url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
           };
         } catch (e) {
           console.log('RejectAccept', e);
@@ -80,7 +80,7 @@ export class PaymentService {
             },
           );
           return {
-            url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+            url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
           };
         }
       } else {
@@ -92,7 +92,7 @@ export class PaymentService {
           console.log('faild', b);
 
           return {
-            url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+            url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
           };
         } catch (e) {
           console.log('faildB', e);
@@ -106,7 +106,7 @@ export class PaymentService {
             },
           );
           return {
-            url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+            url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
           };
         }
       }
@@ -120,7 +120,7 @@ export class PaymentService {
         },
       );
       return {
-        url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+        url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
       };
     }
   }
@@ -143,8 +143,7 @@ export class PaymentService {
           AffectiveAmount: 0,
           TerminalId: '419263',
           ResNum: generateRandomNumber(99999).toString(),
-          // RedirectURL: 'https://back2.ksc.bmtc.ac.ir/payment/verifyCallback',
-          RedirectURL: 'https://meysamsabeti.ir/payment/verifyCallback',
+          RedirectURL: 'https://back2.ksc.bmtc.ac.ir/payment/verifyCallback',
           SettlementIBANInfo: [
             {
               IBAN: 'IR220100004001020103006713',
