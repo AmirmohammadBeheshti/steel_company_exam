@@ -43,7 +43,7 @@ export class UserService {
   async generateCard(userInfo: any) {
     let trackingCode: any = 0;
     let tenderNumber: any = 0;
-
+    console.log(userInfo);
     if (!userInfo.isPaid)
       throw new BadRequestException('کاربر پرداختی را انجام نداده است');
 
