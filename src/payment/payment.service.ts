@@ -37,7 +37,7 @@ export class PaymentService {
           const a = await lastValueFrom(
             this.httpService.post(
               `https://sep.shaparak.ir/verifyTxnRandomSessionkey/ipg/VerifyTranscation`,
-              { RefNum: payload.RefNum, MID: payload.MID },
+              { RefNum: payload.RefNum, MID: '41670843' },
             ),
           );
           console.log('Accept', a);
