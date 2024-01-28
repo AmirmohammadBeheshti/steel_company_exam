@@ -66,7 +66,7 @@ export class PaymentService {
             { isPaid: true },
           );
           return {
-            url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+            url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
           };
         } catch (e) {
           console.log('RejectAccept', e);
@@ -80,7 +80,7 @@ export class PaymentService {
             },
           );
           return {
-            url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+            url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
           };
         }
       } else {
@@ -92,7 +92,7 @@ export class PaymentService {
           console.log('faild', b);
 
           return {
-            url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+            url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
           };
         } catch (e) {
           console.log('faildB', e);
@@ -106,7 +106,7 @@ export class PaymentService {
             },
           );
           return {
-            url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+            url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
           };
         }
       }
@@ -120,7 +120,7 @@ export class PaymentService {
         },
       );
       return {
-        url: `https://meysamsabeti.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
+        url: `https://ksc.bmtc.ac.ir/panel/finalRegistration/accept?id=${foundPayment._id}`,
       };
     }
   }
@@ -133,7 +133,7 @@ export class PaymentService {
   }
 
   async startPayment(payload: StartPaymentDto) {
-    const amount = 10000;
+    const amount = 2500000;
     try {
       const a: any = await lastValueFrom(
         this.httpService.post('https://sep.shaparak.ir/OnlinePG/OnlinePG', {
@@ -147,7 +147,7 @@ export class PaymentService {
           SettlementIBANInfo: [
             {
               IBAN: 'IR220100004001020103006713',
-              Amount: 10000,
+              Amount: amount,
               PurchaseID: '382100060127760000000000012008',
             },
           ],
