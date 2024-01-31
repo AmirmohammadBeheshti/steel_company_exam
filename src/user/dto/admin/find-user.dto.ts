@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Gender } from 'src/shared/enum/gender.enum';
+import { Job } from 'src/shared/enum/job.enum';
 import { UserStatus } from 'src/shared/enum/user-status.enum';
 
 export class AdminFindUserDto {
@@ -11,6 +13,32 @@ export class AdminFindUserDto {
   @IsEnum(UserStatus)
   @IsOptional()
   status: UserStatus;
+
+  @ApiProperty({
+    required: false,
+    default: '',
+    enum: Job,
+  })
+  @IsEnum(Job)
+  @IsOptional()
+  job: Job;
+
+  @ApiProperty({
+    required: false,
+    default: '',
+    enum: Gender,
+  })
+  @IsEnum(Gender)
+  @IsOptional()
+  gender: Gender;
+
+  @ApiProperty({
+    required: false,
+    default: '',
+  })
+  @IsString()
+  @IsOptional()
+  study: string;
 
   @ApiProperty({
     required: false,

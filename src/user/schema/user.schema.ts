@@ -117,6 +117,9 @@ export class User extends Document {
   @Prop({ type: String })
   password: string;
 
+  @Prop({ type: String })
+  description: string;
+
   createdAt: Date;
   updatedAt: Date;
 }

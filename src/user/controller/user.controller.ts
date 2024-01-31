@@ -19,6 +19,7 @@ import { GetUser } from '../decorator/get-user.decorator';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { UploadImageDto } from '../dto/upload-image.dto';
 import { User } from '../schema/user.schema';
+import { UserAdminService } from '../service/user-admin.service';
 import { UserService } from '../service/user.service';
 
 @UseGuards(UserJwtGuardFactory())
@@ -26,7 +27,10 @@ import { UserService } from '../service/user.service';
 @ApiTags('User')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly userAdminService: UserAdminService,
+  ) {}
 
   @Get('profile')
   getProfile(@GetUser() userInfo: User) {
@@ -133,6 +137,11 @@ export class UserController {
   @Get('documents')
   async findUserDocument(@Request() req): Promise<any> {
     return await this.userService.findUserDocument(req.user);
+  }
+
+  @Get('description')
+  async getDescription(@Request() req): Promise<any> {
+    return await this.userAdminService.getDescription(req.user._id);
   }
 
   @Get('get-card')

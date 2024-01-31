@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -11,6 +13,7 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserJwtGuardFactory } from 'src/shared/guard/user-jwt.guard';
 import { ValidateMongoId } from 'src/shared/pipe/validation-mongo';
+import { AddDescriptionDto } from '../dto/add-description.dto';
 import { AdminUserUpdateDto } from '../dto/admin/admin-user-update.dto';
 import { AdminDocStatusDto } from '../dto/admin/doc-status.dto';
 import { AdminFindUserDto } from '../dto/admin/find-user.dto';
@@ -62,5 +65,23 @@ export class UserAdminController {
   @Put('final-accept/:id')
   async finalAccept(@Param('id', ValidateMongoId) id: string) {
     return this.userAdminService.finalAccept(id);
+  }
+
+  @Patch('description/:id')
+  async description(
+    @Param('id', ValidateMongoId) id: string,
+    @Body() payload: AddDescriptionDto,
+  ) {
+    return await this.userAdminService.addDescription(id, payload);
+  }
+
+  @Delete('description/:id')
+  async delDescription(@Param('id', ValidateMongoId) id: string) {
+    return await this.userAdminService.delDescription(id);
+  }
+
+  @Get('description/:id')
+  async getDescription(@Param('id', ValidateMongoId) id: string) {
+    return await this.userAdminService.getDescription(id);
   }
 }
