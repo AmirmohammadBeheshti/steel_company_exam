@@ -11,6 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UserStatus } from 'src/shared/enum/user-status.enum';
 import { UserJwtGuardFactory } from 'src/shared/guard/user-jwt.guard';
 import { ValidateMongoId } from 'src/shared/pipe/validation-mongo';
 import { AddDescriptionDto } from '../dto/add-description.dto';
@@ -65,6 +66,11 @@ export class UserAdminController {
   @Put('final-accept/:id')
   async finalAccept(@Param('id', ValidateMongoId) id: string) {
     return this.userAdminService.finalAccept(id);
+  }
+
+  @Put('final-reject/:id')
+  async finalReject(@Param('id', ValidateMongoId) id: string) {
+    return this.userAdminService.finalAccept(id, UserStatus.REJECTED);
   }
 
   @Patch('description/:id')

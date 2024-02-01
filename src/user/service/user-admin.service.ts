@@ -45,15 +45,29 @@ export class UserAdminService {
   }
 
   async getUser(payload: AdminFindUserDto) {
-    const { status, page, nationalCode, phone, take, study, gender, job } =
-      payload;
+    const {
+      status,
+      page,
+      nationalCode,
+      phone,
+      take,
+      study,
+      gender,
+      job,
+      endUpdatedAt,
+      startUpdatedAt,
+    } = payload;
     return await this.userRepo.findAndPaginate(
       { take: Number(take), page: Number(page) },
       {
-        isAdmin: false,
+        // isAdmin: false,
         status,
         gender,
         job,
+        updatedAt: {
+          $gte: new Date(startUpdatedAt),
+          $lt: new Date(endUpdatedAt),
+        },
         nationalCode: nationalCode && { $regex: nationalCode },
         phone: phone && { $regex: phone },
         extraStudy: study && { $regex: study },
@@ -62,10 +76,13 @@ export class UserAdminService {
       {
         projection: {
           createdAt: 0,
-          updatedAt: 0,
           password: 0,
+          editCount: 0,
           description: 0,
           __v: 0,
+        },
+        sort: {
+          updatedAt: -1,
         },
       },
     );
@@ -175,7 +192,7 @@ export class UserAdminService {
     return true;
   }
 
-  async finalAccept(id: string) {
+  async finalAccept(id: string, status = UserStatus.ACCEPTED) {
     const find = await this.userRepo.findOne({ _id: id });
 
     if (!find) throw new NotFoundException('کاربر یافت نشد');
@@ -196,6 +213,6 @@ export class UserAdminService {
     //   }
     // });
 
-    await this.userRepo.updateOne({ _id: id }, { status: UserStatus.ACCEPTED });
+    await this.userRepo.updateOne({ _id: id }, { status });
   }
 }

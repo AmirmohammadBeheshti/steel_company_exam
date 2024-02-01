@@ -120,6 +120,9 @@ export class User extends Document {
   @Prop({ type: String })
   description: string;
 
+  @Prop({ type: Number, default: 0 })
+  editCount: number;
+
   createdAt: Date;
   updatedAt: Date;
 }

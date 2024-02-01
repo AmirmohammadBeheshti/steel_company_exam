@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Gender } from 'src/shared/enum/gender.enum';
 import { Job } from 'src/shared/enum/job.enum';
 import { UserStatus } from 'src/shared/enum/user-status.enum';
@@ -71,4 +77,20 @@ export class AdminFindUserDto {
   @IsString()
   @IsNotEmpty()
   page: string;
+
+  @ApiProperty({
+    required: true,
+    default: new Date(),
+  })
+  @IsDateString()
+  @IsNotEmpty()
+  startUpdatedAt: string;
+
+  @ApiProperty({
+    required: true,
+    default: new Date(),
+  })
+  @IsDateString()
+  @IsNotEmpty()
+  endUpdatedAt: string;
 }

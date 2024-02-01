@@ -13,6 +13,7 @@ import { Types } from 'mongoose';
 import { IKycFileInput } from 'src/shared/config/file-input';
 import { DocStatus } from 'src/shared/enum/doc-status.enu,';
 import { PhotoTypeStatus } from 'src/shared/enum/photo-type-status.enum';
+import { UserStatus } from 'src/shared/enum/user-status.enum';
 import { generateRandomNumber } from 'src/shared/helper/random-number.helper';
 import { RegisterDto } from '../dto/register.dto';
 import { StartForgotPasswordDto } from '../dto/start-forgot-password.dto';
@@ -227,6 +228,12 @@ export class UserService {
     user: any,
   ): Promise<boolean> {
     const { type } = payload;
+    const foundUser = await this.userRepo.findOne({ _id: user._id });
+    if (foundUser.status == UserStatus.ACCEPTED)
+      throw new BadRequestException(
+        'حساب شما تایید شده است امکان ویرایش ندارید',
+      );
+
     const foundUserDoc = await this.userDocRepo.findOne({
       userId: new Types.ObjectId(user._id),
       photoType: type,
@@ -235,7 +242,11 @@ export class UserService {
     if (foundUserDoc) {
       await this.userDocRepo.updateOne(
         { userId: new Types.ObjectId(user._id), photoType: type },
-        { status: PhotoTypeStatus.PENDING, srcFile: files.file[0].filename },
+        { srcFile: files.file[0].filename },
+      );
+      await this.userRepo.updateOne(
+        { _id: user._id },
+        { $inc: { editCount: 1 } },
       );
     } else {
       this.userDocRepo.create({
@@ -274,6 +285,11 @@ export class UserService {
   }
 
   async editProfile(payload: UpdateProfileDto, user) {
+    const foundUser = await this.userRepo.findOne({ _id: user._id });
+    if (foundUser.status == UserStatus.ACCEPTED)
+      throw new BadRequestException(
+        'حساب شما تایید شده است امکان ویرایش ندارید',
+      );
     const {
       birthDate,
       cityId,
