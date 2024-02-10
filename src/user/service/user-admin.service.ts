@@ -215,4 +215,57 @@ export class UserAdminService {
 
     await this.userRepo.updateOne({ _id: id }, { status });
   }
+
+  async convertData() {
+    const foundUser = await this.userRepo.findAll();
+
+    const gradeValues = {
+      101: 1000,
+      102: 2000,
+      103: 3000,
+      104: 4000,
+      105: 5000,
+      106: 6000,
+      107: 7000,
+      108: 8000,
+      109: 9000,
+      110: 10000,
+      111: 11000,
+      112: 12000,
+      113: 13000,
+      114: 14000,
+      115: 15000,
+      116: 16000,
+      117: 17000,
+      201: 18000,
+      202: 19000,
+      203: 20000,
+      204: 21000,
+      205: 22000,
+      206: 23000,
+      207: 24000,
+    };
+
+    for await (const user of foundUser) {
+      const gradeValue = gradeValues[user.grade];
+      if (!gradeValue) {
+        console.log(user);
+        continue;
+      }
+
+      // Increment the grade value by 1
+      const updatedGradeValue = gradeValue + 1;
+
+      // Prepare the update operation for MongoDB
+      // Note: Adjust 'gradeValueField' to your actual field name in the MongoDB collection
+      await this.userRepo.updateOne(
+        { _id: user._id },
+        { $set: { gradeValueField: updatedGradeValue } },
+      );
+      console.log(updatedGradeValue);
+    }
+
+    // Execute the bulkWrite operation if there are updates to make
+    // console.dir(userUpdates, { depth: null });
+  }
 }

@@ -123,6 +123,9 @@ export class User extends Document {
   @Prop({ type: Number, default: 0 })
   editCount: number;
 
+  @Prop({ type: Number, default: 0 })
+  seatNumber: number;
+
   createdAt: Date;
   updatedAt: Date;
 }
