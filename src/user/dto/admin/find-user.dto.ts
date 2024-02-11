@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsBoolean,
+  IsBooleanString,
   IsDateString,
   IsEnum,
   IsNotEmpty,
   IsOptional,
-  IsString,
+  IsString
 } from 'class-validator';
 import { Gender } from 'src/shared/enum/gender.enum';
 import { Job } from 'src/shared/enum/job.enum';
@@ -51,9 +51,8 @@ export class AdminFindUserDto {
     required: false,
     default: false,
   })
-  @IsBoolean()
+  @IsBooleanString()
   @IsOptional()
-  // @Transform(({ obj, key }) => obj[key] === 'true')
   isPaid: boolean;
 
   @ApiProperty({
