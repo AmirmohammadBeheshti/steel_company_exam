@@ -97,6 +97,7 @@ export class UserAdminService {
     );
 
     if (printCard) {
+      console.log('Run Here ', foundData);
       foundData.items.forEach(async (val, i) => {
         const findUser = foundData.items[i];
         const findData = await this.userService.generateCard(val);
