@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsDateString,
@@ -54,7 +53,7 @@ export class AdminFindUserDto {
   })
   @IsBoolean()
   @IsOptional()
-  @Transform(({ obj, key }) => obj[key] === 'true')
+  // @Transform(({ obj, key }) => obj[key] === 'true')
   isPaid: boolean;
 
   @ApiProperty({
