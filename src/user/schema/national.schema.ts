@@ -7,8 +7,8 @@ import { Document } from 'mongoose';
   timestamps: true,
 })
 export class National extends Document {
-  @Prop({ type: String, unique: true })
-  nationalCode: string;
+  @Prop({ type: String })
+  phone: string;
 
   @Prop({ type: Number, default: 0 })
   stuNumber: number;

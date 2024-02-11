@@ -60,11 +60,8 @@ export class UserAdminService {
       job,
       endUpdatedAt,
       startUpdatedAt,
-      printCard,
     } = payload;
-    console.log(printCard);
-    let extraFilter = {};
-    if (printCard) extraFilter = { isPaid: true };
+
     const foundData = await this.userRepo.findAndPaginate(
       { take: Number(take), page: Number(page) },
       {
@@ -79,8 +76,6 @@ export class UserAdminService {
         nationalCode: nationalCode && { $regex: nationalCode },
         phone: phone && { $regex: phone },
         extraStudy: study && { $regex: study },
-        isPaid: true,
-        // ...extraFilter,
       },
       null,
       {
@@ -98,13 +93,13 @@ export class UserAdminService {
     );
 
     // if (printCard) {
-    console.log('Run Here ', foundData);
-    foundData.items.forEach(async (val, i) => {
-      const findUser = foundData.items[i];
-      const findData = await this.userService.generateCard(val);
-      foundData.items[i].trackingCode = findData.trackingCode;
-      foundData.items[i].tenderNumber = findData.tenderNumber;
-    });
+    // console.log('Run Here ', foundData);
+    // foundData.items.forEach(async (val, i) => {
+    //   const findUser = foundData.items[i];
+    //   const findData = await this.userService.generateCard(val);
+    //   foundData.items[i].trackingCode = findData.trackingCode;
+    //   foundData.items[i].tenderNumber = findData.tenderNumber;
+    // });
     // }
 
     return foundData;
@@ -242,18 +237,14 @@ export class UserAdminService {
     const foundUser = await this.userRepo.findAll();
     for await (const a of foundUser) {
       const findNational = await this.nationalRepo.findOne({
-        nationalCode: a.nationalCode,
+        phone: a.phone,
       });
       if (!findNational)
-        console.log(
-          'National Is Not Found ',
-          a.nationalCode,
-          '=================',
-        );
+        console.log('National Is Not Found ', a.phone, '=================');
       else {
         console.log('FOUND', a.nationalCode);
         this.userRepo.updateOne(
-          { nationalCode: a.nationalCode },
+          { phone: a.phone },
           { studentNumber: findNational.stuNumber },
         );
         console.log('FINISH', a.nationalCode);
