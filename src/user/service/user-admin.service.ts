@@ -60,12 +60,13 @@ export class UserAdminService {
       job,
       endUpdatedAt,
       startUpdatedAt,
+      isPaid,
     } = payload;
-
+    console.log('ISPaid', isPaid);
     const foundData = await this.userRepo.findAndPaginate(
       { take: Number(take), page: Number(page) },
       {
-        // isAdmin: false,
+        isAdmin: false,
         status,
         gender,
         job,
@@ -76,6 +77,7 @@ export class UserAdminService {
         nationalCode: nationalCode && { $regex: nationalCode },
         phone: phone && { $regex: phone },
         extraStudy: study && { $regex: study },
+        isPaid,
       },
       null,
       {
