@@ -124,7 +124,7 @@ export class User extends Document {
   editCount: number;
 
   @Prop({ type: Number, default: 0 })
-  seatNumber: number;
+  studentNumber: number;
 
   createdAt: Date;
   updatedAt: Date;

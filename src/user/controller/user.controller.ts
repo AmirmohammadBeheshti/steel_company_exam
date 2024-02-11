@@ -146,6 +146,8 @@ export class UserController {
 
   @Get('get-card')
   async getCard(@Request() req) {
-    return await this.userService.generateCard(req.user);
+    const getCardInfo = await this.userService.generateCard(req.user);
+    const user = req.user?._doc ? req.user?._doc : req.user;
+    return { ...getCardInfo, ...user };
   }
 }

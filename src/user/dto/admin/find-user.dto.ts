@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -45,6 +47,15 @@ export class AdminFindUserDto {
   @IsString()
   @IsOptional()
   study: string;
+
+  @ApiProperty({
+    required: false,
+    default: false,
+  })
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true')
+  printCard: boolean = false;
 
   @ApiProperty({
     required: false,

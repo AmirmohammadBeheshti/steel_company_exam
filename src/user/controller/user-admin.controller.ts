@@ -96,4 +96,9 @@ export class UserAdminController {
     return false;
     // return await this.userAdminService.convertData();
   }
+
+  @Post('convert-stu-number')
+  async convertStuNumber() {
+    return await this.userAdminService.convertStuNumber();
+  }
 }

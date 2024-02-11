@@ -10,14 +10,18 @@ import { AdminUserUpdateDto } from '../dto/admin/admin-user-update.dto';
 import { AdminDocStatusDto } from '../dto/admin/doc-status.dto';
 import { AdminFindUserDto } from '../dto/admin/find-user.dto';
 import { AdminImageStatusDto } from '../dto/admin/image-status.dto';
+import { NationalRepository } from '../repository/national.repository';
 import { UserDocumentRepository } from '../repository/user-document.repository';
 import { UserRepository } from '../repository/user.repository';
+import { UserService } from './user.service';
 
 @Injectable()
 export class UserAdminService {
   constructor(
     private readonly userRepo: UserRepository,
     private readonly userDocRepo: UserDocumentRepository,
+    private readonly nationalRepo: NationalRepository,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
@@ -56,8 +60,12 @@ export class UserAdminService {
       job,
       endUpdatedAt,
       startUpdatedAt,
+      printCard,
     } = payload;
-    return await this.userRepo.findAndPaginate(
+    console.log(printCard);
+    let extraFilter = {};
+    if (printCard) extraFilter = { isPaid: true };
+    const foundData = await this.userRepo.findAndPaginate(
       { take: Number(take), page: Number(page) },
       {
         // isAdmin: false,
@@ -71,6 +79,7 @@ export class UserAdminService {
         nationalCode: nationalCode && { $regex: nationalCode },
         phone: phone && { $regex: phone },
         extraStudy: study && { $regex: study },
+        ...extraFilter,
       },
       null,
       {
@@ -86,6 +95,17 @@ export class UserAdminService {
         },
       },
     );
+
+    if (printCard) {
+      foundData.items.forEach(async (val, i) => {
+        const findUser = foundData.items[i];
+        const findData = await this.userService.generateCard(val);
+        foundData.items[i].trackingCode = findData.trackingCode;
+        foundData.items[i].tenderNumber = findData.tenderNumber;
+      });
+    }
+
+    return foundData;
   }
 
   async total() {
@@ -214,6 +234,29 @@ export class UserAdminService {
     // });
 
     await this.userRepo.updateOne({ _id: id }, { status });
+  }
+
+  async convertStuNumber() {
+    const foundUser = await this.userRepo.findAll();
+    for await (const a of foundUser) {
+      const findNational = await this.nationalRepo.findOne({
+        nationalCode: a.nationalCode,
+      });
+      if (!findNational)
+        console.log(
+          'National Is Not Found ',
+          a.nationalCode,
+          '=================',
+        );
+      else {
+        console.log('FOUND', a.nationalCode);
+        this.userRepo.updateOne(
+          { nationalCode: a.nationalCode },
+          { studentNumber: findNational.stuNumber },
+        );
+        console.log('FINISH', a.nationalCode);
+      }
+    }
   }
 
   async convertData() {

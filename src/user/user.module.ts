@@ -7,8 +7,10 @@ import { UserJwtSecretService } from './constant/user-jwt-secret.constant';
 import { AuthController } from './controller/auth.controller';
 import { UserAdminController } from './controller/user-admin.controller';
 import { UserController } from './controller/user.controller';
+import { NationalRepository } from './repository/national.repository';
 import { UserDocumentRepository } from './repository/user-document.repository';
 import { UserRepository } from './repository/user.repository';
+import { National, NationalSchema } from './schema/national.schema';
 import {
   UserDocument,
   UserDocumentSchema,
@@ -26,6 +28,7 @@ import { LocalUserStrategy } from './strategies/user-local.strategy';
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: UserDocument.name, schema: UserDocumentSchema },
+      { name: National.name, schema: NationalSchema },
     ]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -43,6 +46,7 @@ import { LocalUserStrategy } from './strategies/user-local.strategy';
     UserDocumentRepository,
     LocalUserStrategy,
     UserJwtStrategy,
+    NationalRepository,
     UserAdminService,
     {
       provide: UserJwtSecretService,
