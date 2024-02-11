@@ -79,7 +79,8 @@ export class UserAdminService {
         nationalCode: nationalCode && { $regex: nationalCode },
         phone: phone && { $regex: phone },
         extraStudy: study && { $regex: study },
-        ...extraFilter,
+        isPaid: true,
+        // ...extraFilter,
       },
       null,
       {
@@ -96,15 +97,15 @@ export class UserAdminService {
       },
     );
 
-    if (printCard) {
-      console.log('Run Here ', foundData);
-      foundData.items.forEach(async (val, i) => {
-        const findUser = foundData.items[i];
-        const findData = await this.userService.generateCard(val);
-        foundData.items[i].trackingCode = findData.trackingCode;
-        foundData.items[i].tenderNumber = findData.tenderNumber;
-      });
-    }
+    // if (printCard) {
+    console.log('Run Here ', foundData);
+    foundData.items.forEach(async (val, i) => {
+      const findUser = foundData.items[i];
+      const findData = await this.userService.generateCard(val);
+      foundData.items[i].trackingCode = findData.trackingCode;
+      foundData.items[i].tenderNumber = findData.tenderNumber;
+    });
+    // }
 
     return foundData;
   }
