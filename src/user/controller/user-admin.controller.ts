@@ -8,9 +8,13 @@ import {
   Post,
   Put,
   Query,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { multerOptions } from 'src/shared/config/multer.config';
 import { UserStatus } from 'src/shared/enum/user-status.enum';
 import { UserJwtGuardFactory } from 'src/shared/guard/user-jwt.guard';
 import { ValidateMongoId } from 'src/shared/pipe/validation-mongo';
@@ -40,6 +44,19 @@ export class UserAdminController {
   @Post('update-user-info')
   async updateuser(@Body() payload: AdminUserUpdateDto) {
     return await this.userAdminService.updateUserInfo(payload);
+  }
+
+  @Patch('update-3-4-imgae/:national')
+  @UseInterceptors(
+    FileFieldsInterceptor([{ name: 'file', maxCount: 1 }], multerOptions),
+  )
+  @ApiConsumes('multipart/form-data')
+  async update3Image(
+    @Param('national') national: string,
+    @UploadedFiles()
+    files: any,
+  ) {
+    return await this.userAdminService.update3Image(national, files.file);
   }
 
   @Get(':id')

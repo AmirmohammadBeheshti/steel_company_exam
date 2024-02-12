@@ -3,7 +3,9 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from 'cache-manager';
 import { Types } from 'mongoose';
+import { IKycFileInput } from 'src/shared/config/file-input';
 import { DocStatus } from 'src/shared/enum/doc-status.enu,';
+import { PhotoType } from 'src/shared/enum/photo-type.enum';
 import { UserStatus } from 'src/shared/enum/user-status.enum';
 import { AddDescriptionDto } from '../dto/add-description.dto';
 import { AdminUserUpdateDto } from '../dto/admin/admin-user-update.dto';
@@ -305,5 +307,18 @@ export class UserAdminService {
 
     // Execute the bulkWrite operation if there are updates to make
     // console.dir(userUpdates, { depth: null });
+  }
+
+  async update3Image(national: string, files: IKycFileInput) {
+    const foundUser = await this.userRepo.findOne({ nationalCode: national });
+    if (!foundUser) throw new NotFoundException('کاربر یافت نشد');
+    await this.userDocRepo.updateOne(
+      {
+        userId: new Types.ObjectId(foundUser._id),
+        photoType: PhotoType.PHOTO3IN4,
+      },
+      { srcFile: files[0].filename },
+    );
+    return true;
   }
 }
