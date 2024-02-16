@@ -20,6 +20,7 @@ import { StartForgotPasswordDto } from '../dto/start-forgot-password.dto';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { UploadImageDto } from '../dto/upload-image.dto';
 import { VerifyForgotPasswordDto } from '../dto/verify-forgot-password.dto';
+import { ExamResultRepository } from '../repository/exam-result.repository';
 import { UserDocumentRepository } from '../repository/user-document.repository';
 import { UserRepository } from '../repository/user.repository';
 
@@ -29,6 +30,7 @@ export class UserService {
   permissibleAge: { master: number; operator: number };
   constructor(
     private readonly userRepo: UserRepository,
+    private readonly examResultRepo: ExamResultRepository,
     private readonly userDocRepo: UserDocumentRepository,
     private readonly jwtService: JwtService,
     private readonly httpService: HttpService,
@@ -255,6 +257,14 @@ export class UserService {
       });
     }
     return true;
+  }
+
+  async examResult(userInfo: any) {
+    const found = await this.examResultRepo.findOne({ phone: userInfo.phone });
+
+    if (!found) throw new NotFoundException('شما مجاز به دریافت نتیجه نیستید');
+
+    return found;
   }
 
   async uploadDegreeDocument(

@@ -150,4 +150,10 @@ export class UserController {
     const user = req.user?._doc ? req.user?._doc : req.user;
     return { ...getCardInfo, ...user };
   }
+
+  @Get('exam-result')
+  async examResult(@GetUser() userInfo: User) {
+    console.log(userInfo);
+    return await this.userService.examResult(userInfo);
+  }
 }
