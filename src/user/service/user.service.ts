@@ -260,7 +260,9 @@ export class UserService {
   }
 
   async examResult(userInfo: any) {
-    const found = await this.examResultRepo.findOne({ phone: userInfo.phone });
+    const found = await this.examResultRepo.findOne({
+      nationalCode: userInfo.nationalCode,
+    });
 
     if (!found) throw new NotFoundException('شما مجاز به دریافت نتیجه نیستید');
 
