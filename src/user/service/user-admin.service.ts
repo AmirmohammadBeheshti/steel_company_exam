@@ -330,7 +330,7 @@ export class UserAdminService {
     return await this.finalRepo.findAndPaginate(
       { page, take },
       {},
-      { createdAt: -1, updatedAt: -1 },
+      // { createdAt: -1, updatedAt: -1 },
     );
   }
 }

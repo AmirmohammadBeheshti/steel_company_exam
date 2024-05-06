@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class FilterUserDto {
   @ApiProperty({
@@ -7,6 +8,7 @@ export class FilterUserDto {
     default: 10,
   })
   @IsNumber()
+  @Type(() => Number)
   @IsNotEmpty()
   take: number;
 
@@ -15,6 +17,8 @@ export class FilterUserDto {
     default: 10,
   })
   @IsNumber()
+  @Type(() => Number)
+
   @IsNotEmpty()
   page: number;
 }

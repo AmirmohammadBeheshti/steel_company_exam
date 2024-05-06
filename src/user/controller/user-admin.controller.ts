@@ -28,11 +28,17 @@ import { Pagination } from 'src/shared/enum/repository/repository.type';
 import { FilterUserDto } from '../dto/admin/filter-user.dto';
 
 @ApiBearerAuth()
-@UseGuards(UserJwtGuardFactory(true))
+// @UseGuards(UserJwtGuardFactory(true))
 @ApiTags('User Admin')
 @Controller('panel/user')
 export class UserAdminController {
   constructor(private readonly userAdminService: UserAdminService) {}
+
+  @Get('finalData')
+  async aaa(@Query() filter : FilterUserDto ) {
+    return await this.userAdminService.finalData(filter);
+  }
+  
   @Get()
   getUser(@Query() payload: AdminFindUserDto) {
     return this.userAdminService.getUser(payload);
@@ -122,8 +128,5 @@ export class UserAdminController {
   }
 
 
-  @Post('finalData')
-  async aaa(@Query() filter : FilterUserDto ) {
-    return await this.userAdminService.finalData(filter);
-  }
+
 }
