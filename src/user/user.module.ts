@@ -22,6 +22,8 @@ import { UserAdminService } from './service/user-admin.service';
 import { UserService } from './service/user.service';
 import { UserJwtStrategy } from './strategies/user-jwt.strategy';
 import { LocalUserStrategy } from './strategies/user-local.strategy';
+import { FinalData, FinalDataSchema } from './schema/final-data.schema';
+import { FinalRepository } from './repository/final.repository';
 
 @Global()
 @Module({
@@ -32,6 +34,7 @@ import { LocalUserStrategy } from './strategies/user-local.strategy';
       { name: UserDocument.name, schema: UserDocumentSchema },
       { name: National.name, schema: NationalSchema },
       { name: ExamResult.name, schema: ExamResultSchema },
+      { name: FinalData.name, schema: FinalDataSchema },
     ]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -51,6 +54,7 @@ import { LocalUserStrategy } from './strategies/user-local.strategy';
     UserJwtStrategy,
     NationalRepository,
     ExamResultRepository,
+    FinalRepository,
     UserAdminService,
     {
       provide: UserJwtSecretService,

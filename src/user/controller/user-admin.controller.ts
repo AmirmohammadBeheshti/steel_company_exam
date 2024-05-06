@@ -24,6 +24,8 @@ import { AdminDocStatusDto } from '../dto/admin/doc-status.dto';
 import { AdminFindUserDto } from '../dto/admin/find-user.dto';
 import { AdminImageStatusDto } from '../dto/admin/image-status.dto';
 import { UserAdminService } from '../service/user-admin.service';
+import { Pagination } from 'src/shared/enum/repository/repository.type';
+import { FilterUserDto } from '../dto/admin/filter-user.dto';
 
 @ApiBearerAuth()
 @UseGuards(UserJwtGuardFactory(true))
@@ -117,5 +119,11 @@ export class UserAdminController {
   @Post('convert-stu-number')
   async convertStuNumber() {
     return await this.userAdminService.convertStuNumber();
+  }
+
+
+  @Post('finalData')
+  async aaa(@Query() filter : FilterUserDto ) {
+    return await this.userAdminService.finalData(filter);
   }
 }

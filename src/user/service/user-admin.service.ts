@@ -16,6 +16,8 @@ import { NationalRepository } from '../repository/national.repository';
 import { UserDocumentRepository } from '../repository/user-document.repository';
 import { UserRepository } from '../repository/user.repository';
 import { UserService } from './user.service';
+import { FinalRepository } from '../repository/final.repository';
+import { FilterUserDto } from '../dto/admin/filter-user.dto';
 
 @Injectable()
 export class UserAdminService {
@@ -23,6 +25,7 @@ export class UserAdminService {
     private readonly userRepo: UserRepository,
     private readonly userDocRepo: UserDocumentRepository,
     private readonly nationalRepo: NationalRepository,
+    private readonly finalRepo: FinalRepository,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
@@ -320,5 +323,14 @@ export class UserAdminService {
       { srcFile: files[0].filename },
     );
     return true;
+  }
+
+  async finalData(filter: FilterUserDto) {
+    const { page, take } = filter;
+    return await this.finalRepo.findAndPaginate(
+      { page, take },
+      {},
+      { createdAt: -1, updatedAt: -1 },
+    );
   }
 }
