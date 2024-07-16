@@ -36,6 +36,7 @@
     "class-validator": "^0.14.1",
     "md5": "^2.3.0",
     "mongoose": "^6.6.2",
+    "monopay": "^2.0.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",

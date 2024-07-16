@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CityModule } from './city/city.module';
-import { UserModule } from './user/user.module';
 import { PaymentModule } from './payment/payment.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -15,7 +15,9 @@ import { PaymentModule } from './payment/payment.module';
     CacheModule.register({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGO_CONNECTION),
+    MongooseModule.forRoot(process.env.MONGO_CONNECTION, {
+      ignoreUndefined: true,
+    }),
     UserModule,
     CityModule,
     PaymentModule,

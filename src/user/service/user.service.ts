@@ -13,12 +13,14 @@ import { Types } from 'mongoose';
 import { IKycFileInput } from 'src/shared/config/file-input';
 import { DocStatus } from 'src/shared/enum/doc-status.enu,';
 import { PhotoTypeStatus } from 'src/shared/enum/photo-type-status.enum';
+import { UserStatus } from 'src/shared/enum/user-status.enum';
 import { generateRandomNumber } from 'src/shared/helper/random-number.helper';
 import { RegisterDto } from '../dto/register.dto';
 import { StartForgotPasswordDto } from '../dto/start-forgot-password.dto';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { UploadImageDto } from '../dto/upload-image.dto';
 import { VerifyForgotPasswordDto } from '../dto/verify-forgot-password.dto';
+import { ExamResultRepository } from '../repository/exam-result.repository';
 import { UserDocumentRepository } from '../repository/user-document.repository';
 import { UserRepository } from '../repository/user.repository';
 
@@ -28,6 +30,7 @@ export class UserService {
   permissibleAge: { master: number; operator: number };
   constructor(
     private readonly userRepo: UserRepository,
+    private readonly examResultRepo: ExamResultRepository,
     private readonly userDocRepo: UserDocumentRepository,
     private readonly jwtService: JwtService,
     private readonly httpService: HttpService,
@@ -43,13 +46,15 @@ export class UserService {
   async generateCard(userInfo: any) {
     let trackingCode: any = 0;
     let tenderNumber: any = 0;
+    if (!userInfo.isPaid)
+      throw new BadRequestException('کاربر پرداختی را انجام نداده است');
 
     if (!userInfo.grade)
       throw new BadRequestException(
         'اطلاعات کاربر با مشکل مواجه است . لطفا اطلاعات را کامل کنید',
       );
 
-    if (userInfo.trackingCode) {
+    if (userInfo.trackingCode || userInfo.trackingCode === null) {
       trackingCode = userInfo.trackingCode;
     } else {
       trackingCode = generateRandomNumber(99999);
@@ -59,7 +64,7 @@ export class UserService {
       );
     }
 
-    if (userInfo.tenderNumber) {
+    if (userInfo.tenderNumber || userInfo.tenderNumber === null) {
       tenderNumber = userInfo.tenderNumber;
     } else {
       tenderNumber =
@@ -71,8 +76,8 @@ export class UserService {
     }
 
     return {
-      trackingCode: Number(trackingCode),
-      tenderNumber: Number(tenderNumber),
+      trackingCode: trackingCode,
+      tenderNumber: tenderNumber,
     };
   }
 
@@ -224,6 +229,12 @@ export class UserService {
     user: any,
   ): Promise<boolean> {
     const { type } = payload;
+    const foundUser = await this.userRepo.findOne({ _id: user._id });
+    if (foundUser.status == UserStatus.ACCEPTED)
+      throw new BadRequestException(
+        'حساب شما تایید شده است امکان ویرایش ندارید',
+      );
+
     const foundUserDoc = await this.userDocRepo.findOne({
       userId: new Types.ObjectId(user._id),
       photoType: type,
@@ -232,7 +243,11 @@ export class UserService {
     if (foundUserDoc) {
       await this.userDocRepo.updateOne(
         { userId: new Types.ObjectId(user._id), photoType: type },
-        { status: PhotoTypeStatus.PENDING, srcFile: files.file[0].filename },
+        { srcFile: files.file[0].filename },
+      );
+      await this.userRepo.updateOne(
+        { _id: user._id },
+        { $inc: { editCount: 1 } },
       );
     } else {
       this.userDocRepo.create({
@@ -242,6 +257,16 @@ export class UserService {
       });
     }
     return true;
+  }
+
+  async examResult(userInfo: any) {
+    const found = await this.examResultRepo.findOne({
+      nationalCode: userInfo.nationalCode,
+    });
+
+    if (!found) throw new NotFoundException('شما مجاز به دریافت نتیجه نیستید');
+
+    return found;
   }
 
   async uploadDegreeDocument(
@@ -271,6 +296,11 @@ export class UserService {
   }
 
   async editProfile(payload: UpdateProfileDto, user) {
+    const foundUser = await this.userRepo.findOne({ _id: user._id });
+    if (foundUser.status == UserStatus.ACCEPTED)
+      throw new BadRequestException(
+        'حساب شما تایید شده است امکان ویرایش ندارید',
+      );
     const {
       birthDate,
       cityId,

@@ -19,6 +19,7 @@ import { GetUser } from '../decorator/get-user.decorator';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { UploadImageDto } from '../dto/upload-image.dto';
 import { User } from '../schema/user.schema';
+import { UserAdminService } from '../service/user-admin.service';
 import { UserService } from '../service/user.service';
 
 @UseGuards(UserJwtGuardFactory())
@@ -26,11 +27,15 @@ import { UserService } from '../service/user.service';
 @ApiTags('User')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly userAdminService: UserAdminService,
+  ) {}
 
   @Get('profile')
   getProfile(@GetUser() userInfo: User) {
     return {
+      _id: userInfo._id,
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       nationalCode: userInfo.nationalCode,
@@ -56,6 +61,7 @@ export class UserController {
       hasMilitaryCard: userInfo.hasMilitaryCard || false,
       state: userInfo.state,
       status: userInfo.status,
+      isPaid: userInfo.isPaid,
       docStatus: userInfo.docStatus,
       isAdmin: userInfo.isAdmin,
       cityId: userInfo.cityId,
@@ -133,8 +139,21 @@ export class UserController {
     return await this.userService.findUserDocument(req.user);
   }
 
+  @Get('description')
+  async getDescription(@Request() req): Promise<any> {
+    return await this.userAdminService.getDescription(req.user._id);
+  }
+
   @Get('get-card')
   async getCard(@Request() req) {
-    return await this.userService.generateCard(req.user);
+    const getCardInfo = await this.userService.generateCard(req.user);
+    const user = req.user?._doc ? req.user?._doc : req.user;
+    return { ...getCardInfo, ...user };
+  }
+
+  @Get('exam-result')
+  async examResult(@GetUser() userInfo: User) {
+    console.log(userInfo);
+    return await this.userService.examResult(userInfo);
   }
 }

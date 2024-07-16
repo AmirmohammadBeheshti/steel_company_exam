@@ -91,6 +91,9 @@ export class User extends Document {
   isAdmin: boolean;
 
   @Prop({ type: Boolean, default: false })
+  isPaid: boolean;
+
+  @Prop({ type: Boolean, default: false })
   graduated: boolean;
 
   @Prop({ type: Boolean })
@@ -113,6 +116,15 @@ export class User extends Document {
 
   @Prop({ type: String })
   password: string;
+
+  @Prop({ type: String })
+  description: string;
+
+  @Prop({ type: Number, default: 0 })
+  editCount: number;
+
+  @Prop({ type: Number, default: 0 })
+  studentNumber: number;
 
   createdAt: Date;
   updatedAt: Date;

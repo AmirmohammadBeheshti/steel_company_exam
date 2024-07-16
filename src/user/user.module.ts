@@ -1,5 +1,5 @@
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -7,8 +7,12 @@ import { UserJwtSecretService } from './constant/user-jwt-secret.constant';
 import { AuthController } from './controller/auth.controller';
 import { UserAdminController } from './controller/user-admin.controller';
 import { UserController } from './controller/user.controller';
+import { ExamResultRepository } from './repository/exam-result.repository';
+import { NationalRepository } from './repository/national.repository';
 import { UserDocumentRepository } from './repository/user-document.repository';
 import { UserRepository } from './repository/user.repository';
+import { ExamResult, ExamResultSchema } from './schema/exam-result.schema';
+import { National, NationalSchema } from './schema/national.schema';
 import {
   UserDocument,
   UserDocumentSchema,
@@ -18,13 +22,19 @@ import { UserAdminService } from './service/user-admin.service';
 import { UserService } from './service/user.service';
 import { UserJwtStrategy } from './strategies/user-jwt.strategy';
 import { LocalUserStrategy } from './strategies/user-local.strategy';
+import { FinalData, FinalDataSchema } from './schema/final-data.schema';
+import { FinalRepository } from './repository/final.repository';
 
+@Global()
 @Module({
   imports: [
     HttpModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: UserDocument.name, schema: UserDocumentSchema },
+      { name: National.name, schema: NationalSchema },
+      { name: ExamResult.name, schema: ExamResultSchema },
+      { name: FinalData.name, schema: FinalDataSchema },
     ]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -42,11 +52,15 @@ import { LocalUserStrategy } from './strategies/user-local.strategy';
     UserDocumentRepository,
     LocalUserStrategy,
     UserJwtStrategy,
+    NationalRepository,
+    ExamResultRepository,
+    FinalRepository,
     UserAdminService,
     {
       provide: UserJwtSecretService,
       useExisting: JwtService,
     },
   ],
+  exports: [UserRepository],
 })
 export class UserModule {}
