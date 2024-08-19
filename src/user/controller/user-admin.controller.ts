@@ -24,7 +24,6 @@ import { AdminDocStatusDto } from '../dto/admin/doc-status.dto';
 import { AdminFindUserDto } from '../dto/admin/find-user.dto';
 import { AdminImageStatusDto } from '../dto/admin/image-status.dto';
 import { UserAdminService } from '../service/user-admin.service';
-import { Pagination } from 'src/shared/enum/repository/repository.type';
 import { FilterUserDto } from '../dto/admin/filter-user.dto';
 
 @ApiBearerAuth()
@@ -42,6 +41,26 @@ export class UserAdminController {
   @Get()
   getUser(@Query() payload: AdminFindUserDto) {
     return this.userAdminService.getUser(payload);
+  }
+
+  @Get('zarin-nam-karshenasi')
+  async zarinNamKarshenasi(@Query() filter : FilterUserDto) {
+    return await this.userAdminService.zarinNamKarshenasi11(filter);
+  }
+
+  @Get('zarin-nam-operator')
+  async zarinNamOperator(@Query() filter : FilterUserDto) {
+    return await this.userAdminService.zarinNamOperator11(filter);
+  }
+
+  @Get('final-operator')
+  async finalOperator(@Query() filter : FilterUserDto) {
+    return await this.userAdminService.finalOperator111(filter);
+  }
+
+  @Get('final-karshenasi')
+  async finalKarshenasi(@Query() filter : FilterUserDto) {
+    return await this.userAdminService.finalKarshenasi111(filter);
   }
 
   @Get('total')
@@ -115,6 +134,8 @@ export class UserAdminController {
   async getDescription(@Param('id', ValidateMongoId) id: string) {
     return await this.userAdminService.getDescription(id);
   }
+
+
 
   @Post('convert-data')
   async convertDat() {

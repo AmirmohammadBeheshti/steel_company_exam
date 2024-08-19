@@ -24,6 +24,26 @@ import { UserJwtStrategy } from './strategies/user-jwt.strategy';
 import { LocalUserStrategy } from './strategies/user-local.strategy';
 import { FinalData, FinalDataSchema } from './schema/final-data.schema';
 import { FinalRepository } from './repository/final.repository';
+import {
+  ZarinNameKarshenasi,
+  ZarinNameKarshenasiSchema,
+} from './schema/zarin-nam-karshenasi.schema';
+import {
+  ZarinNameoperator,
+  ZarinNameOperatorSchema,
+} from './schema/zarin-nam-operator.schema';
+import { ZarinNamKarshenasiRepository } from './repository/zarinNamekarshenasi.repository';
+import { ZarinNamOperatorRepository } from './repository/zarinNameOperator.repository';
+import {
+  nahaeiOperator,
+  nahaeiOperatorSchema,
+} from './schema/nahaei-operator.schema';
+import {
+  nahaeikarshenasi,
+  nahaeikarshenasiSchema,
+} from './schema/nahaei-karshenasi.schema';
+import { NahaeiKarshenasiRepository } from './repository/nahaeiKarshenasi.repository';
+import { NahaeiOperatorRepository } from './repository/nahaeiOperator.repository';
 
 @Global()
 @Module({
@@ -35,6 +55,10 @@ import { FinalRepository } from './repository/final.repository';
       { name: National.name, schema: NationalSchema },
       { name: ExamResult.name, schema: ExamResultSchema },
       { name: FinalData.name, schema: FinalDataSchema },
+      { name: ZarinNameKarshenasi.name, schema: ZarinNameKarshenasiSchema },
+      { name: ZarinNameoperator.name, schema: ZarinNameOperatorSchema },
+      { name: nahaeiOperator.name, schema: nahaeiOperatorSchema },
+      { name: nahaeikarshenasi.name, schema: nahaeikarshenasiSchema },
     ]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -54,6 +78,10 @@ import { FinalRepository } from './repository/final.repository';
     UserJwtStrategy,
     NationalRepository,
     ExamResultRepository,
+    ZarinNamKarshenasiRepository,
+    ZarinNamOperatorRepository,
+    NahaeiKarshenasiRepository,
+    NahaeiOperatorRepository,
     FinalRepository,
     UserAdminService,
     {

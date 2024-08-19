@@ -18,6 +18,10 @@ import { UserRepository } from '../repository/user.repository';
 import { UserService } from './user.service';
 import { FinalRepository } from '../repository/final.repository';
 import { FilterUserDto } from '../dto/admin/filter-user.dto';
+import { ZarinNamOperatorRepository } from '../repository/zarinNameOperator.repository';
+import { ZarinNamKarshenasiRepository } from '../repository/zarinNamekarshenasi.repository';
+import { NahaeiKarshenasiRepository } from '../repository/nahaeiKarshenasi.repository';
+import { NahaeiOperatorRepository } from '../repository/nahaeiOperator.repository';
 
 @Injectable()
 export class UserAdminService {
@@ -26,6 +30,10 @@ export class UserAdminService {
     private readonly userDocRepo: UserDocumentRepository,
     private readonly nationalRepo: NationalRepository,
     private readonly finalRepo: FinalRepository,
+    private readonly zarinNamKarshenasi: ZarinNamKarshenasiRepository,
+    private readonly zarinNamoperator: ZarinNamOperatorRepository,
+    private readonly finalKarshenasi: NahaeiKarshenasiRepository,
+    private readonly finalOperator: NahaeiOperatorRepository,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
@@ -332,5 +340,33 @@ export class UserAdminService {
       {},
       // { createdAt: -1, updatedAt: -1 },
     );
+  }
+
+  async zarinNamKarshenasi11(payload: FilterUserDto) {
+    return await this.zarinNamKarshenasi.findAndPaginate({
+      page: payload.page,
+      take: payload.take,
+    });
+  }
+
+  async zarinNamOperator11(payload: FilterUserDto) {
+    return await this.zarinNamoperator.findAndPaginate({
+      page: payload.page,
+      take: payload.take,
+    });
+  }
+
+  async finalOperator111(payload: FilterUserDto) {
+    return await this.finalOperator.findAndPaginate({
+      page: payload.page,
+      take: payload.take,
+    });
+  }
+
+  async finalKarshenasi111(payload: FilterUserDto) {
+    return await this.finalKarshenasi.findAndPaginate({
+      page: payload.page,
+      take: payload.take,
+    });
   }
 }
